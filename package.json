@@ -1,0 +1,24 @@
+{
+  "name": "playwright-ai-ecomm-tests",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChanukyaV/playwright-ai-ecomm-tests.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/ChanukyaV/playwright-ai-ecomm-tests/issues"
+  },
+  "homepage": "https://github.com/ChanukyaV/playwright-ai-ecomm-tests#readme",
+  "dependencies": {
+    "@playwright/test": "^1.48.0"
+  }
+}
