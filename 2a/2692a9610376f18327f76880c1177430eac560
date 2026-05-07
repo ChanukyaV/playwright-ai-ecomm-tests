@@ -1,0 +1,16 @@
+tests/amazon-headphones-cart.spec.js
+  h_371ffdf085ba37 1-30
+tests/amazon-headphones-validate.spec.js
+  h_371ffdf085ba37 1-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.4.1",
+  "base_commit_sha": "2a2692a9610376f18327f76880c1177430eac560",
+  "prompts": {},
+  "humans": {
+    "h_371ffdf085ba37": {
+      "author": "Chanukya Vempati <aadyanthasolutions@gmail.com>"
+    }
+  }
+}
