@@ -1,0 +1,16 @@
+tests/amazon-headphones-validate.spec.ts
+  h_86d309d4ff5f40 1-29
+tests/amazon-search.spec.ts
+  h_86d309d4ff5f40 1-18
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "4f36897bf7b8ec75da3804fad7d3a97d1062758f",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  }
+}
