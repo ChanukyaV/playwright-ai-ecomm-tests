@@ -1,0 +1,22 @@
+pages/cart.page.ts
+  h_a22de32eaaf18a 1-13
+pages/product.page.ts
+  h_a22de32eaaf18a 1-20
+pages/search-results.page.ts
+  h_a22de32eaaf18a 1-26
+tests/amazon-headphones-cart.spec.ts
+  h_a22de32eaaf18a 2,5,7-10,12,14-16
+pages/home.page.ts
+  h_a22de32eaaf18a 1-23
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.0",
+  "base_commit_sha": "72b4103c19b27554a469b0c2c9ff156c6624f62a",
+  "prompts": {},
+  "humans": {
+    "h_a22de32eaaf18a": {
+      "author": "Vempati, Chanukya <Chanukya.Vempati@pega.com>"
+    }
+  }
+}
