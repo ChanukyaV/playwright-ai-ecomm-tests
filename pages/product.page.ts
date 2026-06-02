@@ -1,6 +1,5 @@
 import { Page } from '@playwright/test';
-import { CartPage } from '../cart/cart.page';
-import { WishlistPage } from '../wishlist/wishlist.page';
+import { CartPage } from './cart.page';
 
 export class ProductPage {
   constructor(private readonly page: Page) {}
@@ -10,7 +9,6 @@ export class ProductPage {
     priceBlock: () => this.page.locator('#corePriceDisplay_desktop_feature_div'),
     buyNowButton: () => this.page.locator('#buy-now-button'),
     addToCartButton: () => this.page.locator('#add-to-cart-button'),
-    addToWishlistButton: () => this.page.locator('#add-to-wishlist-button-submit'),
   };
 
   async addToCart(): Promise<CartPage> {
@@ -18,12 +16,5 @@ export class ProductPage {
     await this.elements.addToCartButton().click();
 
     return new CartPage(this.page);
-  }
-
-  async addToWishlist(): Promise<WishlistPage> {
-    await this.elements.addToWishlistButton().waitFor({ state: 'visible' });
-    await this.elements.addToWishlistButton().click();
-
-    return new WishlistPage(this.page);
   }
 }

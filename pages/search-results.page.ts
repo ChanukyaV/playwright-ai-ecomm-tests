@@ -1,5 +1,5 @@
 import { Page } from '@playwright/test';
-import { ProductPage } from '../product/product.page';
+import { ProductPage } from './product.page';
 
 export class SearchResultsPage {
   constructor(private readonly page: Page) {}
