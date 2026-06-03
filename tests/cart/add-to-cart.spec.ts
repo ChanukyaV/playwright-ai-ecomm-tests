@@ -1,7 +1,7 @@
 import { test, expect } from '@playwright/test';
-import { HomePage } from '../pages/home.page';
+import { HomePage } from '../../pages/home.page';
 
-test('Search for headphones on Amazon.in and add to cart', async ({ page }) => {
+test('Add product to cart', async ({ page }) => {
   const homePage = new HomePage(page);
 
   await homePage.navigate('https://www.amazon.in');
@@ -11,7 +11,6 @@ test('Search for headphones on Amazon.in and add to cart', async ({ page }) => {
 
   const cartPage = await productPage.addToCart();
 
-  // Keep assertions in the test file as required.
   await expect(cartPage.currentPage).toHaveURL(/amazon\.in\/cart|amazon\.in\/gp\/cart/);
   await expect(cartPage.currentPage).toHaveTitle(/Shopping Cart/);
 });
