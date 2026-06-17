@@ -1,0 +1,18 @@
+api/booker-client.ts
+  h_86d309d4ff5f40 1-95
+tests/api/booking.spec.ts
+  h_86d309d4ff5f40 1-50
+api/fixtures.ts
+  h_86d309d4ff5f40 1-38
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.8",
+  "base_commit_sha": "7588d362ac6895eb99e985ad0d384f1cd5d2cda8",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  }
+}
