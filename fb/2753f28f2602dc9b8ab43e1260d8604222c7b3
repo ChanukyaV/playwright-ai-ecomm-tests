@@ -1,0 +1,24 @@
+README.md
+  s_c533ef8d261b1f::t_a231487fd0968e 7,11-15,44,47-53,55-57,60-61,63-92,94,97-98,101-109,111-112,117
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.5.8",
+  "base_commit_sha": "fb2753f28f2602dc9b8ab43e1260d8604222c7b3",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_c533ef8d261b1f": {
+      "agent_id": {
+        "tool": "claude",
+        "id": "5a1688fa-ad0a-4a57-ac86-d85b964c12a3",
+        "model": "claude-sonnet-4-6"
+      },
+      "human_author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  }
+}
