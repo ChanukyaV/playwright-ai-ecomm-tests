@@ -1,0 +1,24 @@
+platform/README.md
+  s_1b531fc18be029::t_26562438a30f72 160-162,180,183,193,195,264,274,283,297,313,337,341,344,355,364
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "3fb8ddfad7a5f0df860a552f09f3ee1d3b8f63ec",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_1b531fc18be029": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "f7c94ba9-807b-493c-88b4-9b304916bdd3",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  }
+}
