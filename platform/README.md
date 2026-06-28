@@ -103,66 +103,100 @@ Deploy ShopLab as a Docker image to Google Cloud Run using Artifact Registry.
 ### 🧱 Architecture
 
 ```
-Local Code → Docker Build → Artifact Registry → Cloud Run
+Cloud Shell → Cloud Build → Artifact Registry → Cloud Run
 ```
 
 ---
 
-### Step 1 — Prepare the project
+## Step 0 — Get the code onto Cloud Shell
 
-Ensure `next.config.ts` has standalone output (already set):
+### 0.1 Set up SSH for GitHub (one-time)
 
-```ts
-const nextConfig: NextConfig = {
-  output: "standalone",
-};
-```
-
-Verify the build works locally before touching Docker:
+Skip this if you already cloned a repo via SSH in Cloud Shell before. Run `cat ~/.ssh/id_ed25519.pub` — if it prints a key, skip to Step 0.2.
 
 ```bash
-npm install
-npm run build
+ssh-keygen -t ed25519 -C "mail2chanu@gmail.com"
+# Press Enter three times to accept defaults
+
+cat ~/.ssh/id_ed25519.pub
+```
+
+Add the output to GitHub:
+
+1. Go to <https://github.com/settings/ssh/new>
+2. Title: **Google Cloud Shell**
+3. Paste the key → click **Add SSH key**
+
+Test the connection:
+
+```bash
+ssh -T git@github.com
+# Expected: Hi ChanukyaV! You've successfully authenticated...
+```
+
+### 0.2 Clone the repo
+
+```bash
+cd ~/home/mail2chanu
+
+git clone git@github.com:ChanukyaV/playwright-ai-ecomm-tests.git
+```
+
+If already cloned from a previous session, pull the latest code instead:
+
+```bash
+cd ~/home/mail2chanu/playwright-ai-ecomm-tests && git pull
 ```
 
 ---
 
-### Step 2 — Build and validate Docker locally
+## Part 1 — One-time GCP Setup
+
+Run these once. If you've already done a step, skip it.
+
+### 1.1 Create a GCP project
 
 ```bash
-# Build
-docker build -t shoplab-platform .
-
-# Run locally to validate (visit http://localhost:8080)
-docker run -p 8080:8080 shoplab-platform
+gcloud projects create exam-prep-prod --name="exam-prep"
+gcloud config set project exam-prep-prod
+gcloud billing projects link exam-prep-prod \
+  --billing-account=013B3D-799559-F0AAC8
 ```
 
----
-
-### Step 3 — Enable Google Cloud APIs
+### 1.2 Enable required GCP services
 
 ```bash
-gcloud config set project YOUR_PROJECT_ID
-
 gcloud services enable \
   run.googleapis.com \
   cloudbuild.googleapis.com \
-  artifactregistry.googleapis.com
+  artifactregistry.googleapis.com \
+  logging.googleapis.com \
+  storage.googleapis.com
 ```
 
----
-
-### Step 4 — Create Artifact Registry repository
+### 1.3 Create Artifact Registry repository
 
 ```bash
-gcloud artifacts repositories create shoplab \
+gcloud artifacts repositories create exam-prep \
   --repository-format=docker \
-  --location=asia-south1
+  --location=asia-south1 \
+  --description="exam-prep container images"
 ```
 
----
+### 1.4 Set cleanup policy (keeps only the last image — stays within free tier)
 
-### Step 5 — Authenticate Docker
+```bash
+cat > /tmp/cleanup-policy.json << 'EOF'
+[{"name":"keep-latest","action":{"type":"Keep"},"mostRecentVersions":{"keepCount":1}}]
+EOF
+
+gcloud artifacts repositories set-cleanup-policies exam-prep \
+  --location=asia-south1 \
+  --project exam-prep-prod \
+  --policy=/tmp/cleanup-policy.json
+```
+
+### 1.5 Authenticate Docker with Artifact Registry
 
 ```bash
 gcloud auth configure-docker asia-south1-docker.pkg.dev
@@ -170,59 +204,97 @@ gcloud auth configure-docker asia-south1-docker.pkg.dev
 
 ---
 
-### Step 6 — Tag the image
+## Part 2 — Build and Deploy
 
-```bash
-docker tag shoplab-platform \
-  asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform
+### 2.1 Verify the Dockerfile
+
+The `platform/Dockerfile` uses a two-stage build. Confirm it matches:
+
+```dockerfile
+FROM node:22-alpine AS builder
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+RUN npm run build
+
+FROM node:22-alpine
+
+WORKDIR /app
+
+ENV NODE_ENV=production
+ENV PORT=8080
+ENV OLLAMA_BASE_URL=http://localhost:11434
+ENV OLLAMA_MODEL=llama3.2
+
+COPY --from=builder /app/.next/standalone ./
+COPY --from=builder /app/.next/static ./.next/static
+COPY --from=builder /app/public ./public
+
+EXPOSE 8080
+
+CMD ["node", "server.js"]
 ```
 
----
+### 2.2 Verify standalone output in Next.js
 
-### Step 7 — Push to Artifact Registry
+`next.config.ts` must have `output: 'standalone'` (already set):
 
-```bash
-docker push \
-  asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform
+```ts
+import type { NextConfig } from "next";
+
+const nextConfig: NextConfig = {
+  output: 'standalone',
+};
+
+export default nextConfig;
 ```
 
-> **Alternative — Cloud Build (no local Docker push required):**
-> ```bash
-> gcloud builds submit \
->   --tag asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform .
-> ```
+### 2.3 Build and push image using Cloud Build
 
----
+This builds the image entirely inside GCP — no local Docker installation needed. Takes 3–5 minutes.
 
-### Step 8 — Deploy to Cloud Run
+```bash
+cd ~/home/mail2chanu/playwright-ai-ecomm-tests/platform
+
+gcloud builds submit \
+  --tag asia-south1-docker.pkg.dev/exam-prep-prod/exam-prep/shoplab-platform \
+  --region asia-south1
+```
+
+You'll see build logs streaming in the terminal.
+
+### 2.4 Deploy to Cloud Run
 
 ```bash
 gcloud run deploy shoplab-platform \
-  --image asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform \
-  --region asia-south1 \
+  --image asia-south1-docker.pkg.dev/exam-prep-prod/exam-prep/shoplab-platform \
+  --region us-east1 \
+  --platform managed \
   --allow-unauthenticated \
   --port 8080 \
   --memory 512Mi \
+  --cpu 1 \
   --min-instances 0 \
   --max-instances 3 \
-  --set-env-vars OLLAMA_BASE_URL=https://YOUR_OLLAMA_HOST,OLLAMA_MODEL=llama3.2
+  --project exam-prep-prod
 ```
 
-You'll get a service URL:
-
-```
-https://shoplab-platform-xxxx-em.a.run.app
-```
+When it finishes you'll see a URL like `https://shoplab-platform-xxxx-ue.a.run.app`. Open it in your browser to confirm it works.
 
 ---
 
-### Step 9 — Environment variables
+### Environment variables
 
 Set or update env vars in Cloud Run without rebuilding the image:
 
 ```bash
 gcloud run services update shoplab-platform \
-  --region asia-south1 \
+  --region us-east1 \
+  --project exam-prep-prod \
   --set-env-vars \
     OLLAMA_BASE_URL=https://YOUR_OLLAMA_HOST,\
     OLLAMA_MODEL=llama3.2
@@ -232,12 +304,13 @@ Or via **Cloud Console → Cloud Run → shoplab-platform → Edit & Deploy New 
 
 ---
 
-### Step 10 — Verify the deployment
+### Verify the deployment
 
 ```bash
 # Get the service URL
 gcloud run services describe shoplab-platform \
-  --region asia-south1 \
+  --region us-east1 \
+  --project exam-prep-prod \
   --format="value(status.url)"
 
 # Smoke-test the APIs
@@ -256,17 +329,19 @@ curl -X POST https://YOUR_SERVICE_URL/api/cart \
 Every time you push new code, run this to redeploy:
 
 ```bash
-git pull
+cd ~/home/mail2chanu/playwright-ai-ecomm-tests && git pull
 
-gcloud config set project YOUR_PROJECT_ID
+cd platform
 
 gcloud builds submit \
-  --tag asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform .
+  --tag asia-south1-docker.pkg.dev/exam-prep-prod/exam-prep/shoplab-platform \
+  --region asia-south1
 
 gcloud run deploy shoplab-platform \
-  --image asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform \
-  --region asia-south1 \
-  --allow-unauthenticated
+  --image asia-south1-docker.pkg.dev/exam-prep-prod/exam-prep/shoplab-platform \
+  --region us-east1 \
+  --allow-unauthenticated \
+  --project exam-prep-prod
 ```
 
 ---
@@ -277,26 +352,16 @@ gcloud run deploy shoplab-platform \
 
 ```bash
 gcloud artifacts docker images list \
-  asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform \
+  asia-south1-docker.pkg.dev/exam-prep-prod/exam-prep/shoplab-platform \
   --include-tags \
   --sort-by="~CREATE_TIME"
-```
-
-Keep the top 2 (latest + previous). Delete the rest.
-
-#### Set a cleanup policy (keeps last 2 automatically)
-
-```bash
-gcloud artifacts repositories set-cleanup-policies shoplab \
-  --location=asia-south1 \
-  --policy='[{"name":"keep-latest","action":{"type":"Keep"},"mostRecentVersions":{"keepCount":2}}]'
 ```
 
 #### Manually delete a specific image
 
 ```bash
 gcloud artifacts docker images delete \
-  asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform@sha256:<DIGEST> \
+  asia-south1-docker.pkg.dev/exam-prep-prod/exam-prep/shoplab-platform@sha256:<DIGEST> \
   --delete-tags --quiet
 ```
 
@@ -319,10 +384,10 @@ Without Ollama the chatbot page shows a connection error; all other pages and AP
 ### ⚠️ Key learnings
 
 - Always validate `npm run build` locally before building the Docker image
-- Always validate the Docker image locally (`docker run -p 8080:8080`) before pushing
-- Avoid `--source` deployment — Docker image-based is more reliable
+- Use Cloud Build (`gcloud builds submit`) instead of local Docker push — more reliable in Cloud Shell
 - `output: "standalone"` in `next.config.ts` is required — without it the container won't start
 - IAM issues usually point to the wrong service account — check Cloud Build SA permissions
+- The cleanup policy (keepCount 1) prevents Artifact Registry storage from accumulating old images
 
 ---
 
@@ -330,7 +395,7 @@ Without Ollama the chatbot page shows a connection error; all other pages and AP
 
 - Custom domain mapping via Cloud Run domain mappings
 - CI/CD via Cloud Build triggers on GitHub push
-- Cost: set `--min-instances 0` to scale to zero when idle
+- Cost: `--min-instances 0` scales to zero when idle (already set above)
 
 ---
 
