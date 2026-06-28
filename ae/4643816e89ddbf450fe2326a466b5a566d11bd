@@ -1,0 +1,31 @@
+platform/README.md
+  h_86d309d4ff5f40 1,3,5-8,10-53,59,61,63-65,67,69,71-76,78,80-86,88,90-231
+  s_ccf43136c87d4a::t_0742a015cb0fe1 9,232
+platform/.dockerignore
+  s_ccf43136c87d4a::t_3aa2241a987b0b 1-8
+platform/Dockerfile
+  s_ccf43136c87d4a::t_aee80a82510bf6 1-37
+platform/next.config.ts
+  h_86d309d4ff5f40 4-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "ae4643816e89ddbf450fe2326a466b5a566d11bd",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_ccf43136c87d4a": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "2ec4d407-b7c4-4311-8e4e-ee5e7f678bd2",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  }
+}
