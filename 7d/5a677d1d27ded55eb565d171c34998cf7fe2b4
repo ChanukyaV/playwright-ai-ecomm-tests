@@ -1,0 +1,74 @@
+platform/src/lib/types.ts
+  h_86d309d4ff5f40 1-40
+platform/src/app/page.tsx
+  s_ccf43136c87d4a::t_2ccd25f338b097 5
+  s_ccf43136c87d4a::t_c4232327a1186a 1-4
+platform/src/app/chat/page.tsx
+  s_ccf43136c87d4a::t_92186ec49f626e 1-155
+platform/src/app/layout.tsx
+  s_ccf43136c87d4a::t_9f96f248efad96 3-35
+  s_ccf43136c87d4a::t_e936e927bf5869 1-2
+  s_ccf43136c87d4a::t_14dc6d522ff7c0 36-38
+platform/src/components/AddToCartButton.tsx
+  h_86d309d4ff5f40 1-53
+platform/src/app/api/products/[id]/route.ts
+  h_86d309d4ff5f40 1-16
+platform/src/components/Navbar.tsx
+  h_86d309d4ff5f40 1-47
+platform/src/app/api/cart/[productId]/route.ts
+  h_86d309d4ff5f40 1-38
+platform/src/app/cart/page.tsx
+  h_86d309d4ff5f40 1-200
+platform/src/components/ProductCard.tsx
+  s_ccf43136c87d4a::t_ae1926a101a97a 1-95
+platform/src/app/products/[id]/page.tsx
+  h_86d309d4ff5f40 1-86
+platform/src/app/api/products/route.ts
+  h_86d309d4ff5f40 1-6
+platform/src/app/api/cart/route.ts
+  h_86d309d4ff5f40 1-33
+platform/src/app/products/page.tsx
+  s_ccf43136c87d4a::t_1f4d316632b35e 1-31
+platform/.env.local.example
+  h_86d309d4ff5f40 1-6
+platform/src/app/api/chat/route.ts
+  s_ccf43136c87d4a::t_dce954fd06f91d 1-60
+platform/package.json
+  s_9c29a977499bcf::t_1d5dee8528378a 26
+  s_9c29a977499bcf::t_2dc68546a09d9a 23-25
+platform/src/lib/products.ts
+  s_ccf43136c87d4a::t_4c573317dbe660 1-104
+platform/src/lib/cart-store.ts
+  h_86d309d4ff5f40 1-56
+platform/package-lock.json
+  s_ccf43136c87d4a::t_7ad47d33f1300f 1-5614
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "7d5a677d1d27ded55eb565d171c34998cf7fe2b4",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_9c29a977499bcf": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "e8d74894-e715-4942-94a2-b3444833d4ee",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    },
+    "s_ccf43136c87d4a": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "2ec4d407-b7c4-4311-8e4e-ee5e7f678bd2",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  }
+}
