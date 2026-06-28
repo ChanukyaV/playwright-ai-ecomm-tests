@@ -1,7 +1,8 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  // Required for minimal Docker images on Cloud Run
+  output: "standalone",
 };
 
 export default nextConfig;
