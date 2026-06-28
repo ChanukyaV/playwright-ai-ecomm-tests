@@ -96,81 +96,148 @@ POST /api/chat    body: { message: string, history?: ChatMessage[] }
 
 ## Deploying to Google Cloud Run
 
-### Prerequisites
+### 🎯 Goal
 
-```bash
-# Install Google Cloud SDK — https://cloud.google.com/sdk/docs/install
-gcloud auth login
-gcloud config set project YOUR_PROJECT_ID
+Deploy ShopLab as a Docker image to Google Cloud Run using Artifact Registry.
+
+### 🧱 Architecture
+
+```
+Local Code → Docker Build → Artifact Registry → Cloud Run
 ```
 
-### 1 — Enable required APIs
+---
+
+### Step 1 — Prepare the project
+
+Ensure `next.config.ts` has standalone output (already set):
+
+```ts
+const nextConfig: NextConfig = {
+  output: "standalone",
+};
+```
+
+Verify the build works locally before touching Docker:
 
 ```bash
+npm install
+npm run build
+```
+
+---
+
+### Step 2 — Build and validate Docker locally
+
+```bash
+# Build
+docker build -t shoplab-platform .
+
+# Run locally to validate (visit http://localhost:8080)
+docker run -p 8080:8080 shoplab-platform
+```
+
+---
+
+### Step 3 — Enable Google Cloud APIs
+
+```bash
+gcloud config set project YOUR_PROJECT_ID
+
 gcloud services enable \
   run.googleapis.com \
-  artifactregistry.googleapis.com \
-  cloudbuild.googleapis.com
+  cloudbuild.googleapis.com \
+  artifactregistry.googleapis.com
 ```
 
-### 2 — Create an Artifact Registry repository
+---
+
+### Step 4 — Create Artifact Registry repository
 
 ```bash
 gcloud artifacts repositories create shoplab \
   --repository-format=docker \
-  --location=us-central1 \
-  --description="ShopLab SUT images"
+  --location=asia-south1
 ```
 
-### 3 — Build and push the Docker image
+---
+
+### Step 5 — Authenticate Docker
 
 ```bash
-# Authenticate Docker with Google Artifact Registry
-gcloud auth configure-docker us-central1-docker.pkg.dev
-
-IMAGE=us-central1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/platform:latest
-
-# Option A — local Docker
-docker build -t $IMAGE .
-docker push $IMAGE
-
-# Option B — Cloud Build (no local Docker required)
-gcloud builds submit --tag $IMAGE .
+gcloud auth configure-docker asia-south1-docker.pkg.dev
 ```
 
-### 4 — Deploy to Cloud Run
+---
+
+### Step 6 — Tag the image
+
+```bash
+docker tag shoplab-platform \
+  asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform
+```
+
+---
+
+### Step 7 — Push to Artifact Registry
+
+```bash
+docker push \
+  asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform
+```
+
+> **Alternative — Cloud Build (no local Docker push required):**
+> ```bash
+> gcloud builds submit \
+>   --tag asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform .
+> ```
+
+---
+
+### Step 8 — Deploy to Cloud Run
 
 ```bash
 gcloud run deploy shoplab-platform \
-  --image $IMAGE \
-  --platform managed \
-  --region us-central1 \
+  --image asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform \
+  --region asia-south1 \
   --allow-unauthenticated \
   --port 8080 \
   --memory 512Mi \
-  --cpu 1 \
   --min-instances 0 \
   --max-instances 3 \
   --set-env-vars OLLAMA_BASE_URL=https://YOUR_OLLAMA_HOST,OLLAMA_MODEL=llama3.2
 ```
 
-Cloud Run will output a service URL like:
-`https://shoplab-platform-xxxx-uc.a.run.app`
+You'll get a service URL:
 
-### 5 — Update environment variables without redeploying
+```
+https://shoplab-platform-xxxx-em.a.run.app
+```
+
+---
+
+### Step 9 — Environment variables
+
+Set or update env vars in Cloud Run without rebuilding the image:
 
 ```bash
 gcloud run services update shoplab-platform \
-  --region us-central1 \
-  --set-env-vars OLLAMA_BASE_URL=https://NEW_HOST,OLLAMA_MODEL=llama3.2
+  --region asia-south1 \
+  --set-env-vars \
+    OLLAMA_BASE_URL=https://YOUR_OLLAMA_HOST,\
+    OLLAMA_MODEL=llama3.2
 ```
 
-### 6 — Verify the deployment
+Or via **Cloud Console → Cloud Run → shoplab-platform → Edit & Deploy New Revision → Variables & Secrets**.
+
+---
+
+### Step 10 — Verify the deployment
 
 ```bash
 # Get the service URL
 gcloud run services describe shoplab-platform \
-  --region us-central1 \
+  --region asia-south1 \
   --format="value(status.url)"
 
 # Smoke-test the APIs
@@ -184,7 +251,58 @@ curl -X POST https://YOUR_SERVICE_URL/api/cart \
 
 ---
 
-## Ollama on Cloud Run
+### 🔄 Future deployment workflow
+
+Every time you push new code, run this to redeploy:
+
+```bash
+git pull
+
+gcloud config set project YOUR_PROJECT_ID
+
+gcloud builds submit \
+  --tag asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform .
+
+gcloud run deploy shoplab-platform \
+  --image asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform \
+  --region asia-south1 \
+  --allow-unauthenticated
+```
+
+---
+
+### 🗂️ Artifact Registry — image management
+
+#### List images (newest first)
+
+```bash
+gcloud artifacts docker images list \
+  asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform \
+  --include-tags \
+  --sort-by="~CREATE_TIME"
+```
+
+Keep the top 2 (latest + previous). Delete the rest.
+
+#### Set a cleanup policy (keeps last 2 automatically)
+
+```bash
+gcloud artifacts repositories set-cleanup-policies shoplab \
+  --location=asia-south1 \
+  --policy='[{"name":"keep-latest","action":{"type":"Keep"},"mostRecentVersions":{"keepCount":2}}]'
+```
+
+#### Manually delete a specific image
+
+```bash
+gcloud artifacts docker images delete \
+  asia-south1-docker.pkg.dev/YOUR_PROJECT_ID/shoplab/shoplab-platform@sha256:<DIGEST> \
+  --delete-tags --quiet
+```
+
+---
+
+### Ollama on Cloud Run
 
 Cloud Run containers cannot reach `localhost:11434`. Use one of these options:
 
@@ -194,7 +312,25 @@ Cloud Run containers cannot reach `localhost:11434`. Use one of these options:
 | **GCE VM with GPU** | Run `ollama serve` on a Compute Engine VM; connect via VPC with an internal IP |
 | **Vertex AI / Gemini** | Replace the `/api/chat` route to call Vertex AI — no Ollama needed |
 
-Without Ollama the chatbot page shows a connection error; all other pages and APIs continue to work normally.
+Without Ollama the chatbot page shows a connection error; all other pages and APIs work normally.
+
+---
+
+### ⚠️ Key learnings
+
+- Always validate `npm run build` locally before building the Docker image
+- Always validate the Docker image locally (`docker run -p 8080:8080`) before pushing
+- Avoid `--source` deployment — Docker image-based is more reliable
+- `output: "standalone"` in `next.config.ts` is required — without it the container won't start
+- IAM issues usually point to the wrong service account — check Cloud Build SA permissions
+
+---
+
+### 💡 Optional improvements
+
+- Custom domain mapping via Cloud Run domain mappings
+- CI/CD via Cloud Build triggers on GitHub push
+- Cost: set `--min-instances 0` to scale to zero when idle
 
 ---
 
