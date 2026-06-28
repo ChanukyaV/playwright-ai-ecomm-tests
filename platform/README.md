@@ -157,9 +157,9 @@ Run these once. If you've already done a step, skip it.
 ### 1.1 Create a GCP project
 
 ```bash
-gcloud projects create exam-prep-prod --name="exam-prep"
-gcloud config set project exam-prep-prod
-gcloud billing projects link exam-prep-prod \
+gcloud projects create shoplab-platform-prod --name="shoplab-platform"
+gcloud config set project shoplab-platform-prod
+gcloud billing projects link shoplab-platform-prod \
   --billing-account=013B3D-799559-F0AAC8
 ```
 
@@ -177,10 +177,10 @@ gcloud services enable \
 ### 1.3 Create Artifact Registry repository
 
 ```bash
-gcloud artifacts repositories create exam-prep \
+gcloud artifacts repositories create shoplab-platform \
   --repository-format=docker \
   --location=asia-south1 \
-  --description="exam-prep container images"
+  --description="shoplab-platform container images"
 ```
 
 ### 1.4 Set cleanup policy (keeps only the last image — stays within free tier)
@@ -190,9 +190,9 @@ cat > /tmp/cleanup-policy.json << 'EOF'
 [{"name":"keep-latest","action":{"type":"Keep"},"mostRecentVersions":{"keepCount":1}}]
 EOF
 
-gcloud artifacts repositories set-cleanup-policies exam-prep \
+gcloud artifacts repositories set-cleanup-policies shoplab-platform \
   --location=asia-south1 \
-  --project exam-prep-prod \
+  --project shoplab-platform-prod \
   --policy=/tmp/cleanup-policy.json
 ```
 
@@ -261,7 +261,7 @@ This builds the image entirely inside GCP — no local Docker installation neede
 cd ~/home/mail2chanu/playwright-ai-ecomm-tests/platform
 
 gcloud builds submit \
-  --tag asia-south1-docker.pkg.dev/exam-prep-prod/exam-prep/shoplab-platform \
+  --tag asia-south1-docker.pkg.dev/shoplab-platform-prod/shoplab-platform/shoplab-platform \
   --region asia-south1
 ```
 
@@ -271,7 +271,7 @@ You'll see build logs streaming in the terminal.
 
 ```bash
 gcloud run deploy shoplab-platform \
-  --image asia-south1-docker.pkg.dev/exam-prep-prod/exam-prep/shoplab-platform \
+  --image asia-south1-docker.pkg.dev/shoplab-platform-prod/shoplab-platform/shoplab-platform \
   --region us-east1 \
   --platform managed \
   --allow-unauthenticated \
@@ -280,7 +280,7 @@ gcloud run deploy shoplab-platform \
   --cpu 1 \
   --min-instances 0 \
   --max-instances 3 \
-  --project exam-prep-prod
+  --project shoplab-platform-prod
 ```
 
 When it finishes you'll see a URL like `https://shoplab-platform-xxxx-ue.a.run.app`. Open it in your browser to confirm it works.
@@ -294,7 +294,7 @@ Set or update env vars in Cloud Run without rebuilding the image:
 ```bash
 gcloud run services update shoplab-platform \
   --region us-east1 \
-  --project exam-prep-prod \
+  --project shoplab-platform-prod \
   --set-env-vars \
     OLLAMA_BASE_URL=https://YOUR_OLLAMA_HOST,\
     OLLAMA_MODEL=llama3.2
@@ -310,7 +310,7 @@ Or via **Cloud Console → Cloud Run → shoplab-platform → Edit & Deploy New 
 # Get the service URL
 gcloud run services describe shoplab-platform \
   --region us-east1 \
-  --project exam-prep-prod \
+  --project shoplab-platform-prod \
   --format="value(status.url)"
 
 # Smoke-test the APIs
@@ -334,14 +334,14 @@ cd ~/home/mail2chanu/playwright-ai-ecomm-tests && git pull
 cd platform
 
 gcloud builds submit \
-  --tag asia-south1-docker.pkg.dev/exam-prep-prod/exam-prep/shoplab-platform \
+  --tag asia-south1-docker.pkg.dev/shoplab-platform-prod/shoplab-platform/shoplab-platform \
   --region asia-south1
 
 gcloud run deploy shoplab-platform \
-  --image asia-south1-docker.pkg.dev/exam-prep-prod/exam-prep/shoplab-platform \
+  --image asia-south1-docker.pkg.dev/shoplab-platform-prod/shoplab-platform/shoplab-platform \
   --region us-east1 \
   --allow-unauthenticated \
-  --project exam-prep-prod
+  --project shoplab-platform-prod
 ```
 
 ---
@@ -352,7 +352,7 @@ gcloud run deploy shoplab-platform \
 
 ```bash
 gcloud artifacts docker images list \
-  asia-south1-docker.pkg.dev/exam-prep-prod/exam-prep/shoplab-platform \
+  asia-south1-docker.pkg.dev/shoplab-platform-prod/shoplab-platform/shoplab-platform \
   --include-tags \
   --sort-by="~CREATE_TIME"
 ```
@@ -361,7 +361,7 @@ gcloud artifacts docker images list \
 
 ```bash
 gcloud artifacts docker images delete \
-  asia-south1-docker.pkg.dev/exam-prep-prod/exam-prep/shoplab-platform@sha256:<DIGEST> \
+  asia-south1-docker.pkg.dev/shoplab-platform-prod/shoplab-platform/shoplab-platform@sha256:<DIGEST> \
   --delete-tags --quiet
 ```
 
