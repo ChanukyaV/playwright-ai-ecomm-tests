@@ -1,0 +1,45 @@
+platform/src/app/products/page.tsx
+  s_1b531fc18be029::t_b28cee9b27c458 2
+  s_ccf43136c87d4a::t_0a2c2b952af9f6 21
+platform/src/components/ProductSearch.tsx
+  h_86d309d4ff5f40 1-60
+platform/src/components/AddToCartButton.tsx
+  s_1b531fc18be029::t_fc1ba9653fc069 3
+  s_1b531fc18be029::t_6c05a9caaf1142 35,38,44-52
+platform/src/app/cart/page.tsx
+  s_1b531fc18be029::t_bf6c54ea291faf 44-47
+  s_1b531fc18be029::t_d3c06013381419 10
+  s_1b531fc18be029::t_27a63027101b55 11,43
+  s_1b531fc18be029::t_43b59f1cd1d400 48-50,64-96,232-234,237
+platform/src/components/ProductCard.tsx
+  s_1b531fc18be029::t_cffa35c9c0f8f4 76-93
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.3",
+  "base_commit_sha": "adfc87fdb72d45976d75843a9ddb49977ebc8b3a",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_1b531fc18be029": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "f7c94ba9-807b-493c-88b4-9b304916bdd3",
+        "model": "gpt-5.3-codex"
+      },
+      "human_author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    },
+    "s_ccf43136c87d4a": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "2ec4d407-b7c4-4311-8e4e-ee5e7f678bd2",
+        "model": "unknown"
+      },
+      "human_author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  }
+}
