@@ -1,5 +1,5 @@
 import { PRODUCTS } from "@/lib/products";
-import ProductCard from "@/components/ProductCard";
+import ProductSearch from "@/components/ProductSearch";
 
 export default function ProductsPage() {
   return (
@@ -18,14 +18,7 @@ export default function ProductsPage() {
           {PRODUCTS.length} products available
         </p>
       </div>
-      <div
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6"
-        data-testid="product-grid"
-      >
-        {PRODUCTS.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      <ProductSearch products={PRODUCTS} />
     </main>
   );
 }

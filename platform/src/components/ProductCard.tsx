@@ -73,14 +73,24 @@ export default function ProductCard({ product }: ProductCardProps) {
           </span>
         </div>
         <div className="mt-3 flex gap-2">
-          <button
-            onClick={handleAddToCart}
-            disabled={adding}
-            className="flex-1 bg-blue-600 text-white text-sm font-medium py-2 px-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
-            data-testid="add-to-cart-btn"
-          >
-            {adding ? "Adding…" : added ? "✓ Added!" : "Add to Cart"}
-          </button>
+          {added ? (
+            <Link
+              href="/cart"
+              className="flex-1 text-center bg-green-600 text-white text-sm font-medium py-2 px-3 rounded-lg hover:bg-green-700 transition-colors"
+              data-testid="go-to-cart-btn"
+            >
+              🛒 Go to Cart
+            </Link>
+          ) : (
+            <button
+              onClick={handleAddToCart}
+              disabled={adding}
+              className="flex-1 bg-blue-600 text-white text-sm font-medium py-2 px-3 rounded-lg hover:bg-blue-700 disabled:opacity-50 transition-colors"
+              data-testid="add-to-cart-btn"
+            >
+              {adding ? "Adding…" : "Add to Cart"}
+            </button>
+          )}
           <Link
             href={`/products/${product.id}`}
             className="px-3 py-2 border border-gray-300 rounded-lg text-sm text-gray-600 hover:border-blue-600 hover:text-blue-600 transition-colors"

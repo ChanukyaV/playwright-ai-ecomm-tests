@@ -7,6 +7,8 @@ import { Cart } from "@/lib/types";
 export default function CartPage() {
   const [cart, setCart] = useState<Cart>({ items: [], total: 0 });
   const [loading, setLoading] = useState(true);
+  const [checkoutDone, setCheckoutDone] = useState(false);
+  const [checkingOut, setCheckingOut] = useState(false);
 
   const fetchCart = useCallback(async () => {
     const res = await fetch("/api/cart");
@@ -38,6 +40,14 @@ export default function CartPage() {
     await fetchCart();
   }
 
+  async function handleCheckout() {
+    setCheckingOut(true);
+    await fetch("/api/cart", { method: "DELETE" });
+    setCart({ items: [], total: 0 });
+    setCheckingOut(false);
+    setCheckoutDone(true);
+  }
+
   if (loading) {
     return (
       <main
@@ -47,6 +57,39 @@ export default function CartPage() {
         <p className="text-gray-500" data-testid="cart-loading">
           Loading cart…
         </p>
+      </main>
+    );
+  }
+
+  if (checkoutDone) {
+    return (
+      <main
+        className="max-w-4xl mx-auto px-6 py-8 w-full"
+        data-testid="cart-page"
+      >
+        <div className="text-center py-20" data-testid="order-success">
+          <p className="text-7xl mb-6">🎉</p>
+          <h2
+            className="text-3xl font-bold text-gray-900 mb-3"
+            data-testid="order-success-title"
+          >
+            Order Placed Successfully!
+          </h2>
+          <p
+            className="text-gray-500 text-lg mb-8"
+            data-testid="order-success-message"
+          >
+            Thank you for your purchase. Your order is being processed and will
+            be shipped soon.
+          </p>
+          <Link
+            href="/products"
+            className="inline-block bg-blue-600 text-white font-semibold py-3 px-10 rounded-xl hover:bg-blue-700 transition-colors"
+            data-testid="continue-shopping-btn"
+          >
+            Continue Shopping
+          </Link>
+        </div>
       </main>
     );
   }
@@ -186,10 +229,12 @@ export default function CartPage() {
                 Clear Cart
               </button>
               <button
-                className="flex-1 bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 transition-colors"
+                onClick={handleCheckout}
+                disabled={checkingOut}
+                className="flex-1 bg-blue-600 text-white font-semibold py-3 rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-colors"
                 data-testid="checkout-btn"
               >
-                Checkout
+                {checkingOut ? "Placing Order…" : "Checkout"}
               </button>
             </div>
           </div>

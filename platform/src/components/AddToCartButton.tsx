@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 
 interface AddToCartButtonProps {
@@ -31,15 +32,24 @@ export default function AddToCartButton({ productId }: AddToCartButtonProps) {
   }
 
   return (
-    <div data-testid="add-to-cart-section">
+    <div data-testid="add-to-cart-section" className="flex flex-col gap-2">
       <button
         onClick={handleAddToCart}
-        disabled={adding}
+        disabled={adding || added}
         className="w-full bg-blue-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-blue-700 disabled:opacity-50 transition-colors"
         data-testid="add-to-cart-btn"
       >
         {adding ? "Adding…" : added ? "✓ Added to Cart!" : "Add to Cart"}
       </button>
+      {added && (
+        <Link
+          href="/cart"
+          className="w-full text-center bg-green-600 text-white font-semibold py-3 px-6 rounded-xl hover:bg-green-700 transition-colors"
+          data-testid="go-to-cart-btn"
+        >
+          🛒 Go to Cart
+        </Link>
+      )}
       {error && (
         <p
           className="mt-2 text-sm text-red-600"
