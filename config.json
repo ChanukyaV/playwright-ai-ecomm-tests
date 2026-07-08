@@ -1,0 +1,14 @@
+{
+  "environments": {
+    "dev": {
+      "baseUrl": "https://shoplab-platform-399284160033.us-east1.run.app/"
+    },
+    "integration": {
+      "baseUrl": "https://shoplab-platform-399284160033.us-east1.run.app/"
+    },
+    "preprod": {
+      "baseUrl": "https://www.shoplab-preprod.com"
+    }
+  },
+  "activeEnvironment": "dev"
+}
