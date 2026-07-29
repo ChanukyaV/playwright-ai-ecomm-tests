@@ -1,0 +1,37 @@
+pages/cart.page.ts
+  h_86d309d4ff5f40 1-178
+AUTOMATION_STRUCTURE.md
+  h_86d309d4ff5f40 1-238
+pages/product-detail.page.ts
+  h_86d309d4ff5f40 1-91
+pages/base.page.ts
+  h_86d309d4ff5f40 1-27
+pages/home.page.ts
+  h_86d309d4ff5f40 1-3,5-10,12-57,59-61,64-110,112-113
+pages/components/navbar.page.ts
+  h_86d309d4ff5f40 1-58
+tests/automated/first-10-tests.spec.ts
+  h_86d309d4ff5f40 1,6-244
+  s_5c4f2441b91400::t_cc2a1c94829220 2-5
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.6.16",
+  "base_commit_sha": "7d86442afc0189f66e1ff39f992776a29cbc6b02",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_5c4f2441b91400": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "37d651aa-9715-4239-a143-8dcffbf686d9",
+        "model": "claude-haiku-4.5"
+      },
+      "human_author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  }
+}
