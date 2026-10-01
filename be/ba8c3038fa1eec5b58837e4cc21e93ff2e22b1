@@ -1,0 +1,14 @@
+tests/api/shoplab-api.spec.ts
+  h_86d309d4ff5f40 1-193
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "beba8c3038fa1eec5b58837e4cc21e93ff2e22b1",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    }
+  }
+}
