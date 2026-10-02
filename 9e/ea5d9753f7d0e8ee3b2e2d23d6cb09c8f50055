@@ -1,0 +1,29 @@
+pages/cart.page.ts
+  s_7b4686017a5de0::t_473a295ab5ea8d 17-22,41,48,54,118-124
+tests/ui/api-to-ui-cart.spec.ts
+  h_cb3bf1232671d4 1-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.4",
+  "base_commit_sha": "9eea5d9753f7d0e8ee3b2e2d23d6cb09c8f50055",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    },
+    "h_cb3bf1232671d4": {
+      "author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_7b4686017a5de0": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "b56b0048-102a-4cf8-bbc7-50bc88008232",
+        "model": "copilot/gpt-6-luna"
+      },
+      "human_author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  }
+}
