@@ -14,12 +14,12 @@ export class CartPage extends BasePage {
   constructor(page: Page, baseUrl?: string) {
     super(page, baseUrl);
     this.navbar = new Navbar(page, baseUrl);
-    this.heading = page.locator('h1:has-text("Shopping Cart")');
-    this.emptyCartMessage = page.locator('text=Your cart is empty');
-    this.continueShoppingLink = page.locator('a:has-text("Continue Shopping")');
-    this.cartItems = page.locator('main').locator('> div').filter({ has: page.locator('button') }).locator('> div').nth(0);
-    this.checkoutButton = page.locator('button:has-text("Checkout")');
-    this.clearCartButton = page.locator('button:has-text("Clear Cart")');
+    this.heading = page.getByTestId('cart-title');
+    this.emptyCartMessage = page.getByTestId('empty-cart');
+    this.continueShoppingLink = page.getByTestId('continue-shopping');
+    this.cartItems = page.getByTestId('cart-items').getByTestId('cart-item');
+    this.checkoutButton = page.getByTestId('checkout-btn');
+    this.clearCartButton = page.getByTestId('clear-cart-btn');
   }
 
   async navigate(): Promise<void> {
@@ -38,26 +38,20 @@ export class CartPage extends BasePage {
   async getCartItemsCount(): Promise<number> {
     try {
       // Get all product rows in cart
-      const items = this.page.locator('main').locator('div').filter({ hasText: /\$\d+\.\d+/ });
-      return await items.count();
+      return await this.cartItems.count();
     } catch {
       return 0;
     }
   }
 
   async getCartItemByIndex(index: number): Promise<CartItem> {
-    const itemElement = this.page
-      .locator('main')
-      .locator('> div')
-      .filter({ has: this.page.locator('button') })
-      .locator('> div')
-      .nth(index);
+    const itemElement = this.cartItems.nth(index);
     return new CartItem(this.page, itemElement, this.baseUrl);
   }
 
   async getCartTotal(): Promise<string> {
     try {
-      const totalText = await this.page.locator('text=Total:').locator('+ div, + span').textContent();
+      const totalText = await this.page.getByTestId('cart-total').textContent();
       return totalText || '';
     } catch {
       return '';
@@ -121,13 +115,13 @@ export class CartItem {
     this.page = page;
     this.itemElement = itemElement;
     this.baseUrl = baseUrl;
-    this.productName = itemElement.locator('h3, a, div').first();
-    this.price = itemElement.locator('div:has-text("$")').first();
-    this.quantity = itemElement.locator('input[type="number"], div:has-text("Qty")');
-    this.subtotal = itemElement.locator('div:has-text("Subtotal")').or(itemElement.locator('div').filter({ hasText: /\$\d+\.\d+/ }).last());
-    this.increaseButton = itemElement.locator('button:has-text("+"), button[aria-label*="increase" i]');
-    this.decreaseButton = itemElement.locator('button:has-text("-"), button[aria-label*="decrease" i]');
-    this.removeButton = itemElement.locator('button:has-text("Remove")');
+    this.productName = itemElement.getByTestId('cart-item-name');
+    this.price = itemElement.getByTestId('cart-item-price');
+    this.quantity = itemElement.getByTestId('item-quantity');
+    this.subtotal = itemElement.getByTestId('cart-item-subtotal');
+    this.increaseButton = itemElement.getByTestId('quantity-increase');
+    this.decreaseButton = itemElement.getByTestId('quantity-decrease');
+    this.removeButton = itemElement.getByTestId('remove-item-btn');
   }
 
   async getProductName(): Promise<string> {
