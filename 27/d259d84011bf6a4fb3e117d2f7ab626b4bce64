@@ -1,0 +1,32 @@
+README.md
+  s_be13153d897873::t_506e89e4176c54 60-91
+k6/shoplab-api.js
+  h_cb3bf1232671d4 1-11,13-161
+  s_be13153d897873::t_19cf6bb844f333 12
+.gitignore
+  s_be13153d897873::t_64bcd0765fe0de 4
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "27d259d84011bf6a4fb3e117d2f7ab626b4bce64",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    },
+    "h_cb3bf1232671d4": {
+      "author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_be13153d897873": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "d020dd93-a6e5-4ef1-b03a-52af168e2b07",
+        "model": "copilot/claude-sonnet-5.5"
+      },
+      "human_author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  }
+}
