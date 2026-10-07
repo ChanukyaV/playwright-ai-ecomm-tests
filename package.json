@@ -4,7 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "playwright test"
+    "test": "playwright test",
+    "k6:smoke": "cross-env SCENARIO=smoke k6 run k6/shoplab-api.js",
+    "k6:load": "cross-env SCENARIO=load k6 run k6/shoplab-api.js",
+    "k6:stress": "cross-env SCENARIO=stress k6 run k6/shoplab-api.js",
+    "k6:dashboard": "cross-env SCENARIO=load K6_WEB_DASHBOARD=true k6 run k6/shoplab-api.js",
+    "k6:report": "cross-env SCENARIO=load K6_WEB_DASHBOARD=true K6_WEB_DASHBOARD_PORT=-1 K6_WEB_DASHBOARD_EXPORT=reports/k6-dashboard.html k6 run --summary-export=reports/k6-summary.json k6/shoplab-api.js",
+    "k6:cloud": "cross-env SCENARIO=load k6 cloud run --local-execution k6/shoplab-api.js"
   },
   "repository": {
     "type": "git",
@@ -20,5 +26,8 @@
   "homepage": "https://github.com/ChanukyaV/playwright-ai-ecomm-tests#readme",
   "dependencies": {
     "@playwright/test": "^1.48.0"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }
