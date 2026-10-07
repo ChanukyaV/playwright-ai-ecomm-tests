@@ -1,3 +1,4 @@
 node_modules
 test-results
 /.playwright-mcp
+reports/k6-*

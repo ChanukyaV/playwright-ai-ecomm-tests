@@ -57,6 +57,38 @@ npx playwright test --reporter=line
 npx playwright test --ui
 ```
 
+## API Performance Tests (k6)
+
+Script: [k6/shoplab-api.js](k6/shoplab-api.js). Covers `/api/products`, `/api/products/:id`, and the `/api/cart` endpoints (happy and 404 paths). `/api/chat` is excluded because it depends on Ollama.
+
+Requires [k6](https://grafana.com/docs/k6/latest/set-up/install-k6/) v1.0 or later and `npm install` (for `cross-env`).
+
+```bash
+npm run k6:smoke     # 1 VU, 30s sanity check
+npm run k6:load      # ramp to 20 VUs, hold 3m
+npm run k6:stress    # ramp to 150 VUs to find the breaking point
+```
+
+**Base URL:** defaults to the `activeEnvironment` in [config.json](config.json). Override with `BASE_URL` or `ENV` (for example `ENV=integration`).
+
+```bash
+k6 run -e BASE_URL=http://localhost:3000 -e SCENARIO=smoke k6/shoplab-api.js
+```
+
+**Live results (web dashboard):** run `npm run k6:dashboard`, then open http://localhost:5665.
+
+**Save report (HTML dashboard + JSON summary):** run `npm run k6:report`. Output is written to `reports/k6-dashboard.html` and `reports/k6-summary.json` (git-ignored).
+
+**Grafana Cloud k6:** the test runs locally and streams results to the cloud.
+
+```bash
+k6 cloud login --token <GRAFANA_CLOUD_K6_TOKEN>   # or set K6_CLOUD_TOKEN
+# PowerShell: $env:K6_CLOUD_PROJECT_ID = "<project id>"
+npm run k6:cloud
+```
+
+The cart is shared server-side, so high-VU runs mutate shared state; the script clears the cart in teardown.
+
 ## Project Structure
 
 ```
