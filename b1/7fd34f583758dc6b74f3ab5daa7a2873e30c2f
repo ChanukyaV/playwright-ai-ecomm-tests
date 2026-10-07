@@ -1,0 +1,29 @@
+package.json
+  s_be13153d897873::t_64bcd0765fe0de 7-13,29-31
+package-lock.json
+  s_be13153d897873::t_53d6dc8773fa67 13-15,33-66,81-97,127-165
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "b17fd34f583758dc6b74f3ab5daa7a2873e30c2f",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    },
+    "h_cb3bf1232671d4": {
+      "author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_be13153d897873": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "d020dd93-a6e5-4ef1-b03a-52af168e2b07",
+        "model": "copilot/claude-sonnet-5.5"
+      },
+      "human_author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  }
+}
