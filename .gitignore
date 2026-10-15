@@ -2,3 +2,4 @@ node_modules
 test-results
 /.playwright-mcp
 reports/k6-*
+playwright-report/index.html
