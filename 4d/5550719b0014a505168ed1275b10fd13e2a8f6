@@ -1,0 +1,27 @@
+.github/workflows/playwright.yml
+  s_1a3364b36c0d45::t_7b740b6541faea 7-8
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "4d5550719b0014a505168ed1275b10fd13e2a8f6",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    },
+    "h_cb3bf1232671d4": {
+      "author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_1a3364b36c0d45": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "ce87b47a-d518-45be-abd9-3ee1b928ecab",
+        "model": "copilot/gpt-6-luna"
+      },
+      "human_author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  }
+}
