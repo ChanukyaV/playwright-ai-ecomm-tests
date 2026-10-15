@@ -1,0 +1,19 @@
+.gitignore
+  h_cb3bf1232671d4 5
+.github/workflows/playwright.yml
+  h_cb3bf1232671d4 1-44
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "38b0ef1697818f115b43b3a84737c5a5588493c5",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    },
+    "h_cb3bf1232671d4": {
+      "author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  }
+}
