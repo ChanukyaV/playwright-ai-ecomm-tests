@@ -1,0 +1,109 @@
+"sdet-interview-prep/Ep1 - types-of-testing/07-smoke-sanity-regression/sanity.spec.ts"
+  s_3832882c665d83::t_f38d67fa1fca7b 11
+  s_3832882c665d83::t_92a2ee596b44ae 8-10
+  s_3832882c665d83::t_f0ea82c15916e3 12-14
+  s_3832882c665d83::t_c4de9cb0d350bd 1-7,15-31
+"sdet-interview-prep/Ep1 - types-of-testing/04-system/shoplab-system.spec.ts"
+  s_3832882c665d83::t_f38d67fa1fca7b 2-3
+  s_3832882c665d83::t_95bdca2cda44df 1
+  s_3832882c665d83::t_e95cc50206a2fc 4-6
+  s_3832882c665d83::t_153ef35b76a859 7-81
+"sdet-interview-prep/Ep1 - types-of-testing/13-installation-portability/portability.spec.ts"
+  s_3832882c665d83::t_f38d67fa1fca7b 4-19
+  s_3832882c665d83::t_76de1e5547ace3 1-3
+  s_3832882c665d83::t_1f3c2da82e7196 20-22
+  s_3832882c665d83::t_1a737afd0ce7c3 23-67
+"sdet-interview-prep/Ep1 - types-of-testing/07-smoke-sanity-regression/regression.spec.ts"
+  s_3832882c665d83::t_f38d67fa1fca7b 9
+  s_3832882c665d83::t_b9c08a7576c65b 6-8
+  s_3832882c665d83::t_20ef09159a60ad 10-12
+  s_3832882c665d83::t_95142854af924d 1-5,13-47
+"sdet-interview-prep/Ep1 - types-of-testing/08-performance/shoplab-spike.js"
+  s_3832882c665d83::t_f38d67fa1fca7b 7-12
+  s_3832882c665d83::t_43cc0ea4723eb6 4-6
+  s_3832882c665d83::t_0b55f33b42abbf 13-15
+  s_3832882c665d83::t_5c13d1389e3d5f 1-3,16-34
+"sdet-interview-prep/Ep1 - types-of-testing/08-performance/response-time.spec.ts"
+  s_3832882c665d83::t_f38d67fa1fca7b 7
+  s_3832882c665d83::t_c680013c8321c7 4-6
+  s_3832882c665d83::t_f731c3659d2d70 8-10
+  s_3832882c665d83::t_672a1eccb2647a 1-3,11-56
+"sdet-interview-prep/Ep1 - types-of-testing/07-smoke-sanity-regression/smoke.spec.ts"
+  s_3832882c665d83::t_f38d67fa1fca7b 7
+  s_3832882c665d83::t_37f6bd6492fbb6 4-6
+  s_3832882c665d83::t_f5333e8039d7f7 8-10
+  s_3832882c665d83::t_fbc8484b4e9caf 1-3,11-30
+"sdet-interview-prep/Ep1 - types-of-testing/01-unit/cart-store.unit.spec.ts"
+  s_3832882c665d83::t_f38d67fa1fca7b 9-10
+  s_3832882c665d83::t_16bcca2b9dcc57 6-8
+  s_3832882c665d83::t_3175472e062a7d 11-13
+  s_3832882c665d83::t_8de995fd2b74fb 1-5,14-67
+"sdet-interview-prep/Ep1 - types-of-testing/README.md"
+  s_3832882c665d83::t_f38d67fa1fca7b 33-50
+  s_3832882c665d83::t_cda55e3280899c 30-32
+  s_3832882c665d83::t_4e5aae1c44abf9 51-53
+  s_3832882c665d83::t_ea18f554f952c6 1-29,54-76
+"sdet-interview-prep/Ep1 - types-of-testing/02-integration/cart-integration.spec.ts"
+  s_3832882c665d83::t_f38d67fa1fca7b 2-4
+  s_3832882c665d83::t_1f34108f2bbd09 1
+  s_3832882c665d83::t_2f833fe62ee605 5-7
+  s_3832882c665d83::t_e9e8fb95fb955f 8-40
+"sdet-interview-prep/Ep1 - types-of-testing/12-compatibility/cross-browser.spec.ts"
+  s_3832882c665d83::t_f38d67fa1fca7b 9-10
+  s_3832882c665d83::t_c2dc6c1edcf4ae 6-8
+  s_3832882c665d83::t_4d46dbe14a3f7a 11-13
+  s_3832882c665d83::t_b1ee2251b86c53 1-5,14-42
+"sdet-interview-prep/Ep1 - types-of-testing/playwright.config.ts"
+  s_3832882c665d83::t_f38d67fa1fca7b 2
+  s_3832882c665d83::t_0b1402af666b52 1
+  s_3832882c665d83::t_27890f09915b6d 3-5
+  s_3832882c665d83::t_a112a3ada76610 6-28
+"sdet-interview-prep/Ep1 - types-of-testing/03-api/shoplab-api.spec.ts"
+  s_c81c3f957287c4::t_a2ca8b7d7387e9 1-67
+"sdet-interview-prep/Ep1 - types-of-testing/05-e2e/purchase-journey.e2e.spec.ts"
+  s_c81c3f957287c4::t_934ba21bfa9583 1-52
+"sdet-interview-prep/Ep1 - types-of-testing/06-acceptance/cart.acceptance.spec.ts"
+  s_c81c3f957287c4::t_edfd83766da8e9 1-56
+"sdet-interview-prep/Ep1 - types-of-testing/09-security/security.spec.ts"
+  s_c81c3f957287c4::t_3060c8f916832e 1-86
+"sdet-interview-prep/Ep1 - types-of-testing/10-usability-accessibility/usability-accessibility.spec.ts"
+  s_c81c3f957287c4::t_59539ef50e8037 1-83
+"sdet-interview-prep/Ep1 - types-of-testing/11-reliability-recovery/reliability.spec.ts"
+  s_c81c3f957287c4::t_bf23e6659b47a6 1-69
+"sdet-interview-prep/Ep1 - types-of-testing/14-localization/localization.spec.ts"
+  s_c81c3f957287c4::t_3d6f27b18867b1 1-54
+"sdet-interview-prep/Ep1 - types-of-testing/support/cart.ts"
+  s_c81c3f957287c4::t_18d50b0d829c4f 1-13
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "3efee4249f1eeb826d42658c755739ed71d026c3",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    },
+    "h_cb3bf1232671d4": {
+      "author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_3832882c665d83": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "c235be65-4739-4f01-909a-d33a080135b0",
+        "model": "unknown"
+      },
+      "human_author": "Chanukya V <mail2chanu@gmail.com>"
+    },
+    "s_c81c3f957287c4": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "b60e93e6-49ce-4359-bb02-b0d8d04d2338",
+        "model": "unknown"
+      },
+      "human_author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  }
+}
