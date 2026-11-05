@@ -1,0 +1,58 @@
+"sdet-interview-prep/Ep2 - playwright-locators/01-locator-strategies/03-get-by-label-and-placeholder.spec.ts"
+  s_cf0a1caaf32eb7::t_c08cf9ccbd0924 1-17,19-23,25-37
+  s_cf0a1caaf32eb7::t_e21c41e160031d 18,24
+"sdet-interview-prep/Ep2 - playwright-locators/02-key-concepts/01-first-last-nth.spec.ts"
+  s_cf0a1caaf32eb7::t_290c1ea47dbb48 1-41
+"sdet-interview-prep/Ep2 - playwright-locators/01-locator-strategies/01-get-by-role.spec.ts"
+  s_cf0a1caaf32eb7::t_4e946728a83116 21
+  s_cf0a1caaf32eb7::t_5ede77daa7a10a 1-20,22-50
+"sdet-interview-prep/Ep2 - playwright-locators/support/sample-ui.ts"
+  s_cf0a1caaf32eb7::t_a65a3c27cd57de 1-84
+"sdet-interview-prep/Ep2 - playwright-locators/02-key-concepts/06-locator-vs-elementhandle.spec.ts"
+  s_cf0a1caaf32eb7::t_8213be6533d67c 1-30
+"sdet-interview-prep/Ep2 - playwright-locators/01-locator-strategies/04-get-by-alt-text-and-title.spec.ts"
+  s_cf0a1caaf32eb7::t_3ea8074ed08d28 1-25
+"sdet-interview-prep/Ep2 - playwright-locators/README.md"
+  s_cf0a1caaf32eb7::t_02c3248b1850c0 1-58
+"sdet-interview-prep/Ep2 - playwright-locators/02-key-concepts/04-strict-mode.spec.ts"
+  s_cf0a1caaf32eb7::t_423ca2afad690a 9-10
+  s_cf0a1caaf32eb7::t_79e3457037e500 1-8,11-24
+"sdet-interview-prep/Ep2 - playwright-locators/01-locator-strategies/02-get-by-text.spec.ts"
+  s_cf0a1caaf32eb7::t_7405a569e704e4 1-51
+"sdet-interview-prep/Ep2 - playwright-locators/02-key-concepts/03-chaining.spec.ts"
+  s_cf0a1caaf32eb7::t_f62e7a19a37895 1-6,9-10,12-13,15,17-35
+  s_cf0a1caaf32eb7::t_32c8389737df2c 7-8,11,14,16
+"sdet-interview-prep/Ep2 - playwright-locators/01-locator-strategies/05-get-by-test-id-and-locator.spec.ts"
+  s_cf0a1caaf32eb7::t_0a25e7f70215d4 22
+  s_cf0a1caaf32eb7::t_4af379712a34ca 1-21,23-46
+"sdet-interview-prep/Ep2 - playwright-locators/02-key-concepts/02-filter-has-hastext.spec.ts"
+  s_cf0a1caaf32eb7::t_3e39baffb6efd9 1-60
+"sdet-interview-prep/Ep2 - playwright-locators/playwright.config.ts"
+  s_cf0a1caaf32eb7::t_8218c0596db816 1-17
+"sdet-interview-prep/Ep2 - playwright-locators/02-key-concepts/05-auto-waiting.spec.ts"
+  s_cf0a1caaf32eb7::t_06bde0ea7db927 1-54
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f15d47d31333a907d0b89076740365cb7c42f643",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    },
+    "h_cb3bf1232671d4": {
+      "author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_cf0a1caaf32eb7": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "5dccddf7-6db3-4968-ba50-9f093c5bcfbe",
+        "model": "unknown"
+      },
+      "human_author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  }
+}
