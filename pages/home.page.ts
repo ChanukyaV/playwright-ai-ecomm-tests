@@ -51,6 +51,11 @@ export class HomePage extends BasePage {
     return new ProductCard(this.page, cardElement, this.baseUrl);
   }
 
+  async getProductByName(name: string): Promise<ProductCard> {
+    const cardElement = this.page.getByTestId('product-card').filter({ hasText: name });
+    return new ProductCard(this.page, cardElement, this.baseUrl);
+  }
+
   async clickAddToCartOnProduct(productIndex: number): Promise<void> {
     const product = await this.getProductByIndex(productIndex);
     await product.clickAddToCart();
@@ -72,6 +77,7 @@ export class ProductCard {
   private baseUrl: string;
 
   readonly addToCartButton: Locator;
+  readonly goToCartLink: Locator;
   readonly detailsLink: Locator;
   readonly productName: Locator;
   readonly price: Locator;
@@ -81,6 +87,7 @@ export class ProductCard {
     this.cardElement = cardElement;
     this.baseUrl = baseUrl;
     this.addToCartButton = cardElement.locator('button:has-text("Add to Cart"), button:has-text("Go to Cart")');
+    this.goToCartLink = cardElement.getByTestId('go-to-cart-btn');
     this.detailsLink = cardElement.locator('a:has-text("Details")');
     this.productName = cardElement.locator('h3');
     this.price = cardElement.locator('div').filter({ hasText: '$' }).first();

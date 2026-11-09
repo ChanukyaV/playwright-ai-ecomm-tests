@@ -8,6 +8,7 @@ export class CartPage extends BasePage {
   readonly emptyCartMessage: Locator;
   readonly continueShoppingLink: Locator;
   readonly cartItems: Locator;
+  readonly cartTotal: Locator;
   readonly checkoutButton: Locator;
   readonly clearCartButton: Locator;
 
@@ -18,6 +19,7 @@ export class CartPage extends BasePage {
     this.emptyCartMessage = page.getByTestId('empty-cart');
     this.continueShoppingLink = page.getByTestId('continue-shopping');
     this.cartItems = page.getByTestId('cart-items').getByTestId('cart-item');
+    this.cartTotal = page.getByTestId('cart-total');
     this.checkoutButton = page.getByTestId('checkout-btn');
     this.clearCartButton = page.getByTestId('clear-cart-btn');
   }
