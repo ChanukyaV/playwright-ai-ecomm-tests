@@ -1,0 +1,40 @@
+.github/skills/generate-ui-test/standards.md
+  s_21fccedcb89adf::t_fd2972e02ebebe 1-214
+.github/skills/generate-api-test/standards.md
+  s_21fccedcb89adf::t_55becd5b5d0df3 48,162-163,166,186
+  s_21fccedcb89adf::t_6bcee7f21a3e91 1-47,49-161,164-165,167-185,187-191
+.github/skills/generate-ui-test/SKILL.md
+  s_21fccedcb89adf::t_9f11a75d73f153 1-55
+.github/skills/generate-api-test/SKILL.md
+  s_21fccedcb89adf::t_d5c0f9ba1396f1 1-55
+tests/ui/cart.spec.ts
+  s_21fccedcb89adf::t_ff52c5ea5fa030 1-45
+pages/home.page.ts
+  s_21fccedcb89adf::t_5153f435e8900e 54-58,80,90
+pages/cart.page.ts
+  s_21fccedcb89adf::t_1a2e613244ef12 11,22
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "0c4a09255d57ecf4ad60f2054a9ed9d2ada02249",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    },
+    "h_cb3bf1232671d4": {
+      "author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_21fccedcb89adf": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "b56d455d-accc-4e49-9d46-d34c46c4d66c",
+        "model": "claude-sonnet-5.5"
+      },
+      "human_author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  }
+}
