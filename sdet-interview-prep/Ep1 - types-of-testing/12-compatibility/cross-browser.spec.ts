@@ -14,10 +14,10 @@ import { resetCart } from '../support/cart';
 test.beforeEach(({ request }) => resetCart(request));
 test.afterEach(({ request }) => resetCart(request));
 
-test('products page renders all products', async ({ page }) => {
+test('products page renders the first page of products', async ({ page }) => {
   await page.goto('/products');
 
-  await expect(page.getByTestId('product-card')).toHaveCount(8);
+  await expect(page.getByTestId('product-card')).toHaveCount(12);
 });
 
 test('layout fits the screen (no sideways scrolling)', async ({ page }) => {

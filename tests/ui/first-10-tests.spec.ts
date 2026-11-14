@@ -36,9 +36,9 @@ test.describe('ShopLab E-Commerce Automation - First 10 Test Cases', () => {
     const headingText = await homePage.getHeadingText();
     expect(headingText).toContain('All Products');
 
-    // Verify product count text shows 8 products available
+    // Verify product count text shows 100 products available
     const productCountText = await homePage.getProductCountText();
-    expect(productCountText).toContain('8 products available');
+    expect(productCountText).toContain('100 products available');
   });
 
   test('UI-02: Navbar Navigation Across All Pages', async () => {
@@ -72,8 +72,8 @@ test.describe('ShopLab E-Commerce Automation - First 10 Test Cases', () => {
     const productCount = await homePage.getProductCount();
     expect(productCount).toBeGreaterThan(0);
 
-    // Verify exactly 8 product cards are displayed
-    expect(productCount).toBe(8);
+    // Verify exactly 12 product cards (first page) are displayed
+    expect(productCount).toBe(12);
 
     // Verify each card shows required elements (category, name, price, rating, actions)
     const firstProduct = await homePage.getProductByIndex(0);
@@ -167,7 +167,7 @@ test.describe('ShopLab E-Commerce Automation - First 10 Test Cases', () => {
 
     // Verify products page content is visible
     const productCount = await homePage.getProductCount();
-    expect(productCount).toBe(8);
+    expect(productCount).toBe(12);
   });
 
   test('UI-08: Add To Cart From Product Detail', async () => {

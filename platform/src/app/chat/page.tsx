@@ -35,17 +35,32 @@ export default function ChatPage() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ message: text, history: messages }),
+        // Server times out Gemini at 20s; give a little headroom before giving up.
+        signal: AbortSignal.timeout(25_000),
       });
-      const data = (await res.json()) as ChatApiResponse;
+
+      let data: ChatApiResponse = {};
+      try {
+        data = (await res.json()) as ChatApiResponse;
+      } catch {
+        // Non-JSON body (e.g. proxy error page) — fall through to generic error.
+      }
 
       if (!res.ok || !data.reply) {
-        setError(data.error ?? "Failed to get a response. Is Ollama running?");
+        setError(
+          data.error ?? `Failed to get a response (HTTP ${res.status}). Please try again.`
+        );
         return;
       }
 
       setMessages([...updatedHistory, data.reply]);
-    } catch {
-      setError("Could not connect to the chat service.");
+    } catch (err) {
+      const timedOut = err instanceof Error && err.name === "TimeoutError";
+      setError(
+        timedOut
+          ? "The chat service took too long to respond. Please try again."
+          : "Could not connect to the chat service."
+      );
     } finally {
       setLoading(false);
     }

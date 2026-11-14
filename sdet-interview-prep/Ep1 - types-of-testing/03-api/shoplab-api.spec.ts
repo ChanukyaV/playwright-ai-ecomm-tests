@@ -18,7 +18,7 @@ test.describe('Products API', () => {
   test('every product has the agreed fields and types', async ({ request }) => {
     const products = await (await request.get('/api/products')).json();
 
-    expect(products).toHaveLength(8);
+    expect(products).toHaveLength(100);
     for (const p of products) {
       expect(p).toMatchObject({ id: expect.any(String), name: expect.any(String), price: expect.any(Number), stock: expect.any(Number) });
     }

@@ -4,7 +4,7 @@ A **Next.js 16 (App Router + TypeScript + Tailwind)** application that acts as a
 
 - Playwright UI testing
 - Playwright API testing
-- AI / LLM testing (Ollama)
+- AI / LLM testing (Google Gemini)
 - K6 performance testing
 
 ---
@@ -13,10 +13,10 @@ A **Next.js 16 (App Router + TypeScript + Tailwind)** application that acts as a
 
 | Feature | Details |
 |---------|---------|
-| Product listing | 8 hardcoded products, grid layout |
+| Product listing | 100 hardcoded products in 7 categories, grid layout, 12 per page with pagination, category filter and search |
 | Product detail | Description, price, stock, Add to Cart |
 | Shopping cart | Quantity controls, remove, clear, total |
-| AI chatbot | Ollama-backed assistant, streaming-free |
+| AI chatbot | Gemini-backed assistant, streaming-free |
 | REST APIs | Products, cart, chat — all JSON |
 | `data-testid` | On every interactive UI element |
 | In-memory cart | Global singleton `Map`, survives hot reloads |
@@ -28,7 +28,7 @@ A **Next.js 16 (App Router + TypeScript + Tailwind)** application that acts as a
 ### 1 — Prerequisites
 
 - Node.js 20+
-- (Optional) [Ollama](https://ollama.com) for the AI chatbot
+- (Optional) A [Google Gemini API key](https://aistudio.google.com/apikey) for the AI chatbot
 
 ### 2 — Install dependencies
 
@@ -41,14 +41,16 @@ npm install
 
 ```bash
 cp .env.local.example .env.local
-# Edit .env.local and set OLLAMA_BASE_URL and OLLAMA_MODEL
+# Edit .env.local and set GEMINI_API_KEY (and optionally GEMINI_MODEL)
 ```
 
-Pull a model for Ollama:
+**Getting a Gemini API key**
 
-```bash
-ollama pull llama3.2
-```
+1. Go to [Google AI Studio → API keys](https://aistudio.google.com/apikey) and sign in with a Google account.
+2. Click **Create API key**, pick (or create) a Google Cloud project, and copy the key.
+3. Paste it into `platform/.env.local` as `GEMINI_API_KEY=...` and restart `npm run dev`.
+
+The free tier is enough for testing. Never commit the key (`.env.local` is git-ignored).
 
 ### 4 — Start the dev server
 
@@ -71,7 +73,10 @@ npx tsc --noEmit
 ### Products
 
 ```
-GET  /api/products          → Product[]
+GET  /api/products          → Product[] (all 100; no params)
+GET  /api/products?page=1&pageSize=12&category=Audio&q=term
+                           → { items, page, pageSize, total, totalPages }  (400 on invalid page/pageSize)
+GET  /api/categories        → { name, count }[]
 GET  /api/products/:id      → Product | 404
 ```
 
@@ -227,8 +232,8 @@ WORKDIR /app
 
 ENV NODE_ENV=production
 ENV PORT=8080
-ENV OLLAMA_BASE_URL=http://localhost:11434
-ENV OLLAMA_MODEL=llama3.2
+# GEMINI_API_KEY must be supplied at deploy time (never bake it into the image)
+ENV GEMINI_MODEL=gemini-3.5-flash-lite
 
 COPY --from=builder /app/.next/standalone ./
 COPY --from=builder /app/.next/static ./.next/static
@@ -295,10 +300,11 @@ Set or update env vars in Cloud Run without rebuilding the image:
 gcloud run services update shoplab-platform \
   --region us-east1 \
   --project shoplab-platform-prod \
-  --set-env-vars \
-    OLLAMA_BASE_URL=https://YOUR_OLLAMA_HOST,\
-    OLLAMA_MODEL=llama3.2
+  --set-env-vars GEMINI_MODEL=gemini-3.5-flash-lite \
+  --set-secrets GEMINI_API_KEY=gemini-api-key:latest
 ```
+
+`gemini-api-key` is a Secret Manager secret holding your key. For a quick test you can instead use `--set-env-vars GEMINI_API_KEY=...`, but a secret is safer.
 
 Or via **Cloud Console → Cloud Run → shoplab-platform → Edit & Deploy New Revision → Variables & Secrets**.
 
@@ -314,7 +320,7 @@ gcloud run services describe shoplab-platform \
   --format="value(status.url)"
 
 # Smoke-test the APIs
-curl https://YOUR_SERVICE_URL/api/products | jq length     # → 8
+curl https://YOUR_SERVICE_URL/api/products | jq length     # → 100
 curl https://YOUR_SERVICE_URL/api/cart                     # → { items: [], total: 0 }
 
 curl -X POST https://YOUR_SERVICE_URL/api/cart \
@@ -367,17 +373,11 @@ gcloud artifacts docker images delete \
 
 ---
 
-### Ollama on Cloud Run
+### Gemini on Cloud Run
 
-Cloud Run containers cannot reach `localhost:11434`. Use one of these options:
+The chatbot calls the Gemini API over the internet, so no extra infrastructure is needed — just set `GEMINI_API_KEY` on the service (see *Environment variables* above).
 
-| Option | Notes |
-|--------|-------|
-| **Separate Cloud Run service** | Deploy an Ollama container as a second service (requires a GPU-enabled region); set `OLLAMA_BASE_URL` to its service URL |
-| **GCE VM with GPU** | Run `ollama serve` on a Compute Engine VM; connect via VPC with an internal IP |
-| **Vertex AI / Gemini** | Replace the `/api/chat` route to call Vertex AI — no Ollama needed |
-
-Without Ollama the chatbot page shows a connection error; all other pages and APIs work normally.
+Without `GEMINI_API_KEY` the chat API returns `503` (`Failed to connect to Gemini: ...`) and the chatbot page shows an error; all other pages and APIs work normally.
 
 ---
 
@@ -428,6 +428,6 @@ platform/
 │   │   └── AddToCartButton.tsx
 │   └── lib/
 │       ├── types.ts                Shared TypeScript interfaces
-│       ├── products.ts             8 hardcoded products
+│       ├── products.ts             100 hardcoded products (7 categories)
 │       └── cart-store.ts           In-memory cart (global Map)
 ```

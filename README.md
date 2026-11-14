@@ -59,7 +59,7 @@ npx playwright test --ui
 
 ## API Performance Tests (k6)
 
-Script: [k6/shoplab-api.js](k6/shoplab-api.js). Covers `/api/products`, `/api/products/:id`, and the `/api/cart` endpoints (happy and 404 paths). `/api/chat` is excluded because it depends on Ollama.
+Script: [k6/shoplab-api.js](k6/shoplab-api.js). Covers `/api/products`, `/api/products/:id`, and the `/api/cart` endpoints (happy and 404 paths). `/api/chat` is excluded because it depends on Gemini.
 
 Requires [k6](https://grafana.com/docs/k6/latest/set-up/install-k6/) v1.0 or later and `npm install` (for `cross-env`).
 

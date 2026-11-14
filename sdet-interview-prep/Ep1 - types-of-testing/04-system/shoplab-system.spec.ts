@@ -13,11 +13,11 @@ test.beforeEach(({ request }) => resetCart(request));
 test.afterEach(({ request }) => resetCart(request));
 
 test.describe('Product listing & search', () => {
-  test('lists all 8 products', async ({ page }) => {
+  test('lists 100 products, 12 per page', async ({ page }) => {
     await page.goto('/products');
 
-    await expect(page.getByTestId('product-count')).toHaveText('8 products available');
-    await expect(page.getByTestId('product-card')).toHaveCount(8);
+    await expect(page.getByTestId('product-count')).toHaveText('100 products available');
+    await expect(page.getByTestId('product-card')).toHaveCount(12);
   });
 
   test('search narrows the list', async ({ page }) => {

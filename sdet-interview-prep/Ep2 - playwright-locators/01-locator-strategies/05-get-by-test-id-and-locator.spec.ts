@@ -18,7 +18,7 @@ test.afterEach(({ request }) => resetCart(request));
 test('getByTestId', async ({ page }) => {
   await page.goto('/products');
 
-  await expect(page.getByTestId('product-card')).toHaveCount(8);
+  await expect(page.getByTestId('product-card')).toHaveCount(12);
   await expect(page.getByTestId('page-title')).toBeVisible();
 });
 

@@ -93,7 +93,7 @@ export default function () {
     const list = api('GET', '/api/products', '/api/products');
     check(list, {
       'products: status 200': (r) => r.status === 200,
-      'products: 8 items': (r) => r.json().length === 8,
+      'products: 100 items': (r) => r.json().length === 100,
       'products: item has id and price': (r) => {
         const first = r.json()[0];
         return typeof first.id === 'string' && typeof first.price === 'number';

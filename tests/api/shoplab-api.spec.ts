@@ -7,7 +7,7 @@ test.describe('ShopLab API', () => {
     expect(response.status()).toBe(200);
     const products = await response.json();
     expect(Array.isArray(products)).toBe(true);
-    expect(products).toHaveLength(8);
+    expect(products).toHaveLength(100);
 
     for (const product of products) {
       expect(product).toEqual(
@@ -165,23 +165,92 @@ test.describe('ShopLab API', () => {
     });
   });
 
-  test('API-13: Chat API Error Path (Ollama Unavailable)', async ({ request }) => {
+  test.describe('Pagination, filtering and categories', () => {
+    test('API-15: Get Products Paginated', async ({ request }) => {
+      const response = await request.get('/api/products?page=2&pageSize=12');
+
+      expect(response.status()).toBe(200);
+      const body = await response.json();
+      expect(body).toMatchObject({ page: 2, pageSize: 12, total: 100, totalPages: 9 });
+      expect(body.items).toHaveLength(12);
+      expect(body.items[0].id).toBe('p13');
+    });
+
+    test('API-16: Last Page Has Remaining Products', async ({ request }) => {
+      const response = await request.get('/api/products?page=9&pageSize=12');
+
+      expect(response.status()).toBe(200);
+      const body = await response.json();
+      expect(body.items).toHaveLength(4);
+      expect(body.items.at(-1).id).toBe('p100');
+    });
+
+    test('API-17: Page Beyond The Last Page Is Empty', async ({ request }) => {
+      const response = await request.get('/api/products?page=99');
+
+      expect(response.status()).toBe(200);
+      const body = await response.json();
+      expect(body.items).toEqual([]);
+      expect(body.total).toBe(100);
+    });
+
+    test('API-18: Invalid Pagination Parameters Are Rejected', async ({ request }) => {
+      for (const query of ['page=0', 'page=abc', 'pageSize=0', 'pageSize=101']) {
+        const response = await request.get(`/api/products?${query}`);
+
+        expect(response.status(), query).toBe(400);
+        await expect(response.json()).resolves.toEqual({ error: expect.any(String) });
+      }
+    });
+
+    test('API-19: Filter Products By Category', async ({ request }) => {
+      const response = await request.get('/api/products?category=audio&pageSize=100');
+
+      expect(response.status()).toBe(200);
+      const body = await response.json();
+      expect(body.total).toBe(14);
+      for (const product of body.items) {
+        expect(product.category).toBe('Audio');
+      }
+    });
+
+    test('API-20: Search Products With Pagination', async ({ request }) => {
+      const response = await request.get('/api/products?q=keyboard');
+
+      expect(response.status()).toBe(200);
+      const body = await response.json();
+      expect(body.total).toBe(1);
+      expect(body.items[0]).toMatchObject({ id: 'p2', name: 'Mechanical Keyboard' });
+    });
+
+    test('API-21: List Categories', async ({ request }) => {
+      const response = await request.get('/api/categories');
+
+      expect(response.status()).toBe(200);
+      const categories: { name: string; count: number }[] = await response.json();
+      expect(categories).toHaveLength(7);
+      expect(categories.reduce((sum, c) => sum + c.count, 0)).toBe(100);
+      expect(categories).toContainEqual({ name: 'Audio', count: 14 });
+    });
+  });
+
+  test('API-13: Chat API Error Path (Gemini Unavailable)', async ({ request }) => {
     const response = await request.post('/api/chat', {
       data: { message: 'hello', history: [] },
     });
 
-    test.skip(response.status() === 200, 'Ollama is available; the unavailable-path precondition is not met.');
+    test.skip(response.status() === 200, 'Gemini is available; the unavailable-path precondition is not met.');
     expect(response.status()).toBe(503);
     const body = await response.json();
-    expect(body.error).toMatch(/^Failed to connect to Ollama/);
+    expect(body.error).toMatch(/^Failed to connect to Gemini/);
   });
 
-  test('API-14: Chat API Success Path (When Ollama Is Running)', async ({ request }) => {
+  test('API-14: Chat API Success Path (When Gemini Is Configured)', async ({ request }) => {
     const response = await request.post('/api/chat', {
       data: { message: 'Recommend a keyboard', history: [] },
     });
 
-    test.skip(response.status() === 503, 'Ollama is unavailable; the success-path precondition is not met.');
+    test.skip(response.status() === 503, 'Gemini is unavailable; the success-path precondition is not met.');
     expect(response.status()).toBe(200);
     const body = await response.json();
     expect(body.reply).toMatchObject({

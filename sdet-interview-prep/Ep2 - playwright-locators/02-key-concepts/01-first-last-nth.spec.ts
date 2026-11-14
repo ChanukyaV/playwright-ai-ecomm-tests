@@ -33,9 +33,9 @@ test.describe('ShopLab', () => {
     await page.goto('/products');
     const names = page.getByTestId('product-name');
 
-    await expect(names).toHaveCount(8);
+    await expect(names).toHaveCount(12);
     await expect(names.first()).toHaveText('Wireless Bluetooth Headphones');
     await expect(names.nth(1)).toHaveText('Mechanical Keyboard');
-    await expect(names.last()).toHaveText('USB-C Hub 7-in-1');
+    await expect(names.last()).toHaveText('Soundbar 2.1 with Subwoofer');
   });
 });

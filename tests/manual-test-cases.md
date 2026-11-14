@@ -10,7 +10,7 @@
 - Browser is available (Chrome/Edge/Firefox).
 - Network access to the base URL is available.
 - For API checks, use Postman/curl or browser REST client.
-- For AI chat success-path tests, Ollama service must be reachable by the deployed app.
+- For AI chat success-path tests, the deployed app must have a valid GEMINI_API_KEY configured.
 
 ## UI Manual Test Cases
 
@@ -20,7 +20,7 @@
 - Expected Results:
 1. URL redirects to /products.
 1. Page title area shows All Products.
-1. Product count text shows 8 products available.
+1. Product count text shows 100 products available.
 
 ### UI-02: Navbar Navigation Across All Pages
 - Steps:
@@ -39,7 +39,7 @@
 1. Open /products.
 - Expected Results:
 1. Product grid is visible.
-1. Exactly 8 product cards are displayed.
+1. Exactly 12 product cards (the first page) are displayed.
 1. Each card shows category, name, price, rating, Add to Cart, and Details actions.
 
 ### UI-04: Product Search With Matching Keyword
@@ -180,10 +180,10 @@
 ### UI-20: Chat Service Unavailable Error Handling
 - Steps:
 1. Open /chat.
-1. Send a message while backend cannot reach Ollama.
+1. Send a message while backend cannot reach Gemini (e.g. GEMINI_API_KEY missing).
 - Expected Results:
 1. Error banner appears.
-1. Message indicates connection failure to Ollama or chat service.
+1. Message indicates connection failure to Gemini or chat service.
 1. UI remains usable for subsequent attempts.
 
 ### UI-21: Invalid Product Detail URL Returns 404 Page
@@ -192,6 +192,74 @@
 - Expected Results:
 1. 404 page appears with not found message.
 1. Navbar is still visible for recovery navigation.
+
+### UI-22: Products Are Paginated 12 Per Page
+- Steps:
+1. Open /products.
+- Expected Results:
+1. 12 product cards are displayed.
+1. Summary reads Showing 1–12 of 100 products.
+1. Page 1 is highlighted and Previous is disabled.
+
+### UI-23: Navigate Between Pages With Next And Previous
+- Steps:
+1. Open /products.
+1. Click Next.
+1. Click Previous.
+- Expected Results:
+1. After Next, page 2 is highlighted and the summary reads Showing 13–24 of 100 products.
+1. The first card on page 2 is different from the first card on page 1.
+1. After Previous, page 1 is highlighted again.
+
+### UI-24: Last Page Shows The Remaining Products
+- Steps:
+1. Open /products.
+1. Click page 9 in the pagination bar.
+- Expected Results:
+1. 4 product cards are displayed.
+1. Summary reads Showing 97–100 of 100 products.
+1. Next is disabled.
+
+### UI-25: Filter Products By Category
+- Steps:
+1. Open /products.
+1. Click the Audio category chip.
+- Expected Results:
+1. Only Audio products are displayed (14 in total, 12 on the first page).
+1. Summary reads Showing 1–12 of 14 products.
+1. The Audio chip is marked as selected.
+
+### UI-26: Changing Filter Resets To Page 1
+- Steps:
+1. Open /products and go to page 3.
+1. Click the Gaming category chip.
+- Expected Results:
+1. Page 1 of the Gaming results is shown.
+1. Summary reads Showing 1–12 of 14 products.
+
+### UI-27: Page Size Selector Changes Products Per Page
+- Steps:
+1. Open /products.
+1. Select 24 in the Per page dropdown.
+- Expected Results:
+1. 24 product cards are displayed.
+1. Summary reads Showing 1–24 of 100 products.
+1. Pagination shows 5 pages.
+
+### UI-28: Pagination State Is Kept In The URL
+- Steps:
+1. Open /products?category=Computing&page=2.
+- Expected Results:
+1. Computing chip is selected and page 2 is highlighted.
+1. Summary reads Showing 13–18 of 18 products.
+
+### UI-29: Chatbot Declines Products Outside The Catalog
+- Steps:
+1. Open /chat.
+1. Ask whether ShopLab sells shoes.
+- Expected Results:
+1. The reply says ShopLab does not carry shoes.
+1. The reply does not invent any shoe products.
 
 ## API Manual Test Cases
 
@@ -202,7 +270,7 @@
 - Expected Results:
 1. Status is 200.
 1. Response is a JSON array.
-1. Array length is 8.
+1. Array length is 100.
 1. Each item contains id, name, description, price, category, emoji, color, stock, rating.
 
 ### API-02: Get Product By Valid ID
@@ -311,29 +379,87 @@
 1. Status is 404.
 1. Response contains error: Item not found in cart.
 
-### API-13: Chat API Error Path (Ollama Unavailable)
+### API-13: Chat API Error Path (Gemini Unavailable)
 - Endpoint: POST /api/chat
 - Request Body:
 1. { "message": "hello", "history": [] }
 - Steps:
-1. Send POST request when Ollama is unavailable.
+1. Send POST request when Gemini is unavailable (e.g. GEMINI_API_KEY not set).
 - Expected Results:
 1. Status is 503.
-1. Response contains error beginning with Failed to connect to Ollama.
+1. Response contains error beginning with Failed to connect to Gemini.
 
-### API-14: Chat API Success Path (When Ollama Is Running)
+### API-14: Chat API Success Path (When Gemini Is Configured)
 - Endpoint: POST /api/chat
 - Request Body:
 1. { "message": "Recommend a keyboard", "history": [] }
 - Steps:
-1. Ensure app can access configured Ollama endpoint and model.
+1. Ensure GEMINI_API_KEY and GEMINI_MODEL are configured.
 1. Send POST request.
 - Expected Results:
 1. Status is 200.
 1. Response contains reply object with role assistant and non-empty content.
 
+### API-15: Get Products Paginated
+- Endpoint: GET /api/products?page=2&pageSize=12
+- Steps:
+1. Send GET request with page=2 and pageSize=12.
+- Expected Results:
+1. Status is 200.
+1. Body is an object with items, page, pageSize, total, totalPages.
+1. items has 12 products, page is 2, total is 100, totalPages is 9.
+
+### API-16: Last Page Has Remaining Products
+- Endpoint: GET /api/products?page=9&pageSize=12
+- Steps:
+1. Send GET request for the last page.
+- Expected Results:
+1. Status is 200.
+1. items has 4 products.
+
+### API-17: Page Beyond The Last Page Is Empty
+- Endpoint: GET /api/products?page=99
+- Steps:
+1. Send GET request with page=99.
+- Expected Results:
+1. Status is 200.
+1. items is empty and total is 100.
+
+### API-18: Invalid Pagination Parameters Are Rejected
+- Endpoint: GET /api/products?page=0 and ?pageSize=101
+- Steps:
+1. Send GET request with page=0.
+1. Send GET request with pageSize=101.
+- Expected Results:
+1. Both responses have status 400.
+1. Each body contains an error message.
+
+### API-19: Filter Products By Category
+- Endpoint: GET /api/products?category=audio&pageSize=100
+- Steps:
+1. Send GET request with category=audio.
+- Expected Results:
+1. Status is 200 and total is 14.
+1. Every item has category Audio (the match is case-insensitive).
+
+### API-20: Search Products With Pagination
+- Endpoint: GET /api/products?q=keyboard
+- Steps:
+1. Send GET request with q=keyboard.
+- Expected Results:
+1. Status is 200 and total is 1.
+1. The only item is Mechanical Keyboard (p2).
+
+### API-21: List Categories
+- Endpoint: GET /api/categories
+- Steps:
+1. Send GET request to /api/categories.
+- Expected Results:
+1. Status is 200.
+1. Response lists 7 categories whose counts add up to 100.
+
 ## Notes From Live Validation
 - Live UI exploration covered: /, /products, /products/p2, /cart, /chat, and /products/invalid.
 - Live API verification observed:
 1. Products endpoints and cart endpoints behaved as expected.
-1. Chat endpoint currently returned 503 in this environment because Ollama was not reachable.
+1. Chat endpoint currently returned 503 in this environment because Gemini was not reachable/configured.

@@ -28,7 +28,7 @@ test.describe('deployment recipe (static checks on platform/Dockerfile)', () => 
   });
 
   test('external services are configured by environment variables, not hard-coded', () => {
-    expect(dockerfile).toMatch(/ENV OLLAMA_BASE_URL=/);
+    expect(dockerfile).toMatch(/ENV GEMINI_MODEL=/);
   });
 });
 

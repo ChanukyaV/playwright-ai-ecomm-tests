@@ -77,9 +77,9 @@ Always confirm against the route handler, but this is how ShopLab behaves today:
 | Missing cart item | `404` | `{ "error": "Item not found in cart" }` |
 | Clear cart | `200` | `{ "message": "Cart cleared" }` |
 | Remove item | `200` | `{ "message": "Item removed" }` |
-| Chat, Ollama unavailable | `503` | `{ "error": "Failed to connect to Ollama..." }` |
+| Chat, Gemini unavailable | `503` | `{ "error": "Failed to connect to Gemini..." }` |
 
-Product IDs are `p1`–`p8` (source: `platform/src/lib/products.ts`). `p1` is $79.99 and `p2` is $129.99; re-check the source before asserting prices or totals.
+Product IDs are `p1`–`p100` (`GET /api/products` returns all; `?page=&pageSize=&category=&q=` returns `{ items, page, pageSize, total, totalPages }`; `GET /api/categories` lists the 7 categories) (source: `platform/src/lib/products.ts`). `p1` is $79.99 and `p2` is $129.99; re-check the source before asserting prices or totals.
 
 ## 7. State and cleanup
 
@@ -89,7 +89,7 @@ Product IDs are `p1`–`p8` (source: `platform/src/lib/products.ts`). `p1` is $7
   3. Sit in a `test.describe` with `test.describe.configure({ mode: 'serial' })`.
 - For external APIs that create data (a booking), delete what the test created in `afterEach`/`finally`, using the ID returned by the create call.
 - Tests must pass when run alone, in any order, and when repeated.
-- Preconditions that depend on an external service (AI chat needs Ollama) use `test.skip(condition, 'reason')` after the call, with a clear reason, as in `API-13` and `API-14`. Do not use a bare `test.skip()`.
+- Preconditions that depend on an external service (AI chat needs Gemini) use `test.skip(condition, 'reason')` after the call, with a clear reason, as in `API-13` and `API-14`. Do not use a bare `test.skip()`.
 
 ## 8. Things never to do
 

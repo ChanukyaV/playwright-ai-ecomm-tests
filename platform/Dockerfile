@@ -17,8 +17,8 @@ WORKDIR /app
 ENV NODE_ENV=production
 ENV PORT=8080
 # Override at deploy time via Cloud Run env vars
-ENV OLLAMA_BASE_URL=http://localhost:11434
-ENV OLLAMA_MODEL=llama3.2
+# GEMINI_API_KEY must be supplied at deploy time (never bake it into the image)
+ENV GEMINI_MODEL=gemini-3.5-flash-lite
 
 # next.config.ts sets output: "standalone" — copy only what's needed
 COPY --from=builder /app/.next/standalone ./

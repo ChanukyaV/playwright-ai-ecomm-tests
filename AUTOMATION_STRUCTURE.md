@@ -103,7 +103,7 @@ Represents the navigation bar component
 #### UI-01: Root URL Redirects To Products
 - Verifies root URL redirects to `/products`
 - Checks heading displays "All Products"
-- Validates product count shows "8 products available"
+- Validates product count shows "100 products available"
 
 #### UI-02: Navbar Navigation Across All Pages
 - Tests navigation between Products, Cart, and AI Chat
@@ -234,5 +234,5 @@ npx playwright test --ui
 - All tests use the configured base URL from `config.json`
 - Cart is cleared before each test to ensure clean state
 - Tests use proper wait strategies to handle dynamic content
-- Product IDs used: p1, p2, p3, p4, p5, p6, p7, p8
+- Product IDs used: p1–p8 (catalog has 100 products, p1–p100)
 - Search functionality is tested with both matching and non-matching keywords

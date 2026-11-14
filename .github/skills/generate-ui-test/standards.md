@@ -139,13 +139,13 @@ export class ExampleItem {
 
 ## 7. Test data and state
 
-- The ShopLab app has 8 products, `p1`–`p8`. Source of truth: `platform/src/lib/products.ts` (or `GET /api/products`). Known values: `p1` Wireless Bluetooth Headphones $79.99, `p2` Mechanical Keyboard $129.99, `p3` Ergonomic Wireless Mouse $49.99, `p4` 4K USB-C Webcam $89.99, `p5` LED Desk Lamp $39.99, `p6` Gaming Controller $59.99, `p7` Portable Power Bank 20000mAh $34.99, `p8` USB-C Hub 7-in-1 $44.99. Always re-check the source before asserting values.
+- The ShopLab app has 100 products, `p1`–`p100`, shown 12 per page on /products (pagination test ids: `pagination`, `pagination-prev`, `pagination-next`, `pagination-page-N`, `pagination-summary`, `page-size-select`, `category-chip-<name>`). The first eight are listed below; the rest are in the source. Source of truth: `platform/src/lib/products.ts` (or `GET /api/products`). Known values: `p1` Wireless Bluetooth Headphones $79.99, `p2` Mechanical Keyboard $129.99, `p3` Ergonomic Wireless Mouse $49.99, `p4` 4K USB-C Webcam $89.99, `p5` LED Desk Lamp $39.99, `p6` Gaming Controller $59.99, `p7` Portable Power Bank 20000mAh $34.99, `p8` USB-C Hub 7-in-1 $44.99. Always re-check the source before asserting values.
 - **The cart is server-side shared state.** Any test that reads or changes the cart must:
   1. Start clean: `await request.delete('/api/cart')` and assert status `200`.
   2. Clean up afterwards in `test.afterEach` or a `finally` block, with the same call.
   3. Sit in a `test.describe` with `test.describe.configure({ mode: 'serial' })`.
 - Prefer seeding state through the API (`request.post('/api/cart', ...)`) rather than clicking through the UI, unless the click path is what is being tested.
-- If the scenario depends on an external service (the AI chat needs Ollama), use `test.skip(condition, 'reason')` for the unmet precondition, as in `tests/api/shoplab-api.spec.ts`.
+- If the scenario depends on an external service (the AI chat needs Gemini), use `test.skip(condition, 'reason')` for the unmet precondition, as in `tests/api/shoplab-api.spec.ts`.
 
 ## 8. Things never to do
 

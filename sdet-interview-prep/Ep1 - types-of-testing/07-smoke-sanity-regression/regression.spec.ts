@@ -15,10 +15,10 @@ test.describe('regression', { tag: '@regression' }, () => {
   test.beforeEach(({ request }) => resetCart(request));
   test.afterEach(({ request }) => resetCart(request));
 
-  test('REG-01 products list still has 8 items', async ({ request }) => {
+  test('REG-01 products list still has 100 items', async ({ request }) => {
     const products = await (await request.get('/api/products')).json();
 
-    expect(products).toHaveLength(8);
+    expect(products).toHaveLength(100);
   });
 
   test('REG-02 cart add -> update -> remove still works', async ({ request }) => {

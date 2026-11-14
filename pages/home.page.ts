@@ -8,6 +8,12 @@ export class HomePage extends BasePage {
   readonly heading: Locator;
   readonly productCountText: Locator;
   readonly productCards: Locator;
+  readonly productNames: Locator;
+  readonly paginationSummary: Locator;
+  readonly pagination: Locator;
+  readonly previousButton: Locator;
+  readonly nextButton: Locator;
+  readonly pageSizeSelect: Locator;
 
   constructor(page: Page, baseUrl?: string) {
     super(page, baseUrl);
@@ -16,6 +22,45 @@ export class HomePage extends BasePage {
     this.heading = page.locator('h1:has-text("All Products")');
     this.productCountText = page.locator('text=products available');
     this.productCards = page.locator('main').locator('> div > div').filter({ has: page.locator('button:has-text("Add to Cart")') });
+    this.productNames = page.getByTestId('product-grid').getByTestId('product-name');
+    this.paginationSummary = page.getByTestId('pagination-summary');
+    this.pagination = page.getByTestId('pagination');
+    this.previousButton = page.getByTestId('pagination-prev');
+    this.nextButton = page.getByTestId('pagination-next');
+    this.pageSizeSelect = page.getByTestId('page-size-select');
+  }
+
+  categoryChip(name: string): Locator {
+    return this.page.getByTestId(`category-chip-${name.toLowerCase().replace(/\s+/g, '-')}`);
+  }
+
+  pageButton(pageNumber: number): Locator {
+    return this.page.getByTestId(`pagination-page-${pageNumber}`);
+  }
+
+  async navigateWithQuery(query: string): Promise<void> {
+    await this.navigateTo(`/products?${query}`);
+    await this.heading.waitFor();
+  }
+
+  async clickCategory(name: string): Promise<void> {
+    await this.categoryChip(name).click();
+  }
+
+  async clickNextPage(): Promise<void> {
+    await this.nextButton.click();
+  }
+
+  async clickPreviousPage(): Promise<void> {
+    await this.previousButton.click();
+  }
+
+  async clickPage(pageNumber: number): Promise<void> {
+    await this.pageButton(pageNumber).click();
+  }
+
+  async selectPageSize(size: number): Promise<void> {
+    await this.pageSizeSelect.selectOption(String(size));
   }
 
   async navigate(): Promise<void> {
