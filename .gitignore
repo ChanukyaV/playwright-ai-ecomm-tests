@@ -3,3 +3,4 @@ test-results
 /.playwright-mcp
 reports/k6-*
 playwright-report/index.html
+docs/ai-sdet-learning-roadmap.md
