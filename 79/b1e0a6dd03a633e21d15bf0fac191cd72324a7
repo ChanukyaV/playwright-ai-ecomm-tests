@@ -1,0 +1,17 @@
+.gitignore
+  h_cb3bf1232671d4 6
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "79b1e0a6dd03a633e21d15bf0fac191cd72324a7",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    },
+    "h_cb3bf1232671d4": {
+      "author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  }
+}
