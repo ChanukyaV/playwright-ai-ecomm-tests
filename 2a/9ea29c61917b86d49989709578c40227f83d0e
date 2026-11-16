@@ -1,0 +1,27 @@
+ai-agent-validation/grounding-hallucination/questions.txt
+  s_8baab8c5a37c74::t_7a0fb03ea3b9e9 1-2,93-108
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "2a9ea29c61917b86d49989709578c40227f83d0e",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    },
+    "h_cb3bf1232671d4": {
+      "author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_8baab8c5a37c74": {
+      "agent_id": {
+        "tool": "github-copilot",
+        "id": "1550ca02-2c23-4223-b813-58ae3d1085fe",
+        "model": "copilot/gpt-6-luna"
+      },
+      "human_author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  }
+}
