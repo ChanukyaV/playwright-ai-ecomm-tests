@@ -1,5 +1,5 @@
-GROUNDING AND HALLUCINATION QUESTIONS
-=====================================
+GROUNDING, HALLUCINATION, CORRECTNESS AND CONSISTENCY QUESTIONS
+===============================================================
 
 Source of truth: platform/src/lib/products.ts (100 products, ids p1-p100, 7 categories).
 Note: the chatbot's system prompt only contains name, id, price, stock and rating for
@@ -90,6 +90,22 @@ PART A: DETERMINISTIC QUESTIONS
       -> 79.99 every single run
    Q: Is the Handheld Gaming Console in stock?                 (run 5-10 times)
       -> yes every run
+   Q: How many Cameras products do you have?                   (run 5-10 times)
+      -> 13 every run
+   Q: Show me the cheapest Audio product.                      (run 5-10 times)
+      -> Clip-On Lavalier Microphone ($24.99) every run
+   Q: List all products under $20.                             (run 5-10 times)
+      -> the same 10 products every run
+
+   Same fact, different wording. All must return the same value:
+   Q: What is the price of the Wireless Bluetooth Headphones?
+   Q: How much do the Wireless Bluetooth Headphones cost?
+   Q: Wireless Bluetooth Headphones - how much?
+      -> 79.99 for all three
+
+   Cross-answer consistency (same chat):
+   Turn 1: What is the price of the Mechanical Keyboard?       -> 129.99
+   Turn 2: What would 2 of them cost?                          -> 259.98 (reuses 129.99)
 
 
 PART B: NON-DETERMINISTIC QUESTIONS
