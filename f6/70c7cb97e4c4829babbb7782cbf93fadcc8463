@@ -1,0 +1,31 @@
+tests/manual-test-cases.md
+  s_9caca8736b40f5::t_6bf5900405cfbf 1-506,508-537
+  s_9caca8736b40f5::t_0e5fee9cc304f4 507
+tests/api/shoplab-api.spec.ts
+  s_9caca8736b40f5::t_23b7848b07cb08 311
+  s_9caca8736b40f5::t_75101100b160b4 1,262-310,312-341
+---
+{
+  "schema_version": "authorship/3.0.0",
+  "git_ai_version": "1.7.5",
+  "base_commit_sha": "f670c7cb97e4c4829babbb7782cbf93fadcc8463",
+  "prompts": {},
+  "humans": {
+    "h_86d309d4ff5f40": {
+      "author": "Vempati, Chanukya <mail2chanu@gmail.com>"
+    },
+    "h_cb3bf1232671d4": {
+      "author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  },
+  "sessions": {
+    "s_9caca8736b40f5": {
+      "agent_id": {
+        "tool": "github-copilot-cli",
+        "id": "9fbe7e8b-6b6f-4c66-83fe-3c03c0b12c18",
+        "model": "claude-sonnet-5.5"
+      },
+      "human_author": "Chanukya V <mail2chanu@gmail.com>"
+    }
+  }
+}
